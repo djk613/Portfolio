@@ -1,0 +1,17 @@
+C:\Users\user\source\repos\WorkManager\WorkManager\bin\Debug\netcoreapp3.1\WorkManager.exe
+C:\Users\user\source\repos\WorkManager\WorkManager\bin\Debug\netcoreapp3.1\WorkManager.deps.json
+C:\Users\user\source\repos\WorkManager\WorkManager\bin\Debug\netcoreapp3.1\WorkManager.runtimeconfig.json
+C:\Users\user\source\repos\WorkManager\WorkManager\bin\Debug\netcoreapp3.1\WorkManager.runtimeconfig.dev.json
+C:\Users\user\source\repos\WorkManager\WorkManager\bin\Debug\netcoreapp3.1\WorkManager.dll
+C:\Users\user\source\repos\WorkManager\WorkManager\bin\Debug\netcoreapp3.1\WorkManager.pdb
+C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.csprojAssemblyReference.cache
+C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.AddItemForm.resources
+C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.CheckItemForm.resources
+C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.MainForm.resources
+C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.csproj.GenerateResource.cache
+C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.AssemblyInfo.cs
+C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.dll
+C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.pdb
+C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.genruntimeconfig.cache
