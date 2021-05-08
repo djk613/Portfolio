@@ -1,33 +1,199 @@
-﻿// Calculator.cpp : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
-//
-
-#include <iostream>
 #include "Calculator.h"
-#include "Binary.h"
-#include "Decimal.h"
-#include "DigitOperator.h"
-#include "HexaDecimal.h"
 
-int main()
+string Calculator::expr = "";
+int Calculator::n_token_count = 0;
+
+Calculator::Calculator(string expr)
 {
-    string num1;
-    string num2;
-    string result;
+	this->expr = expr;
+	this->expr.erase(remove_if(this->expr.begin(), this->expr.end(), [](const char ch) {
+		return ch == '(' || ch == ')' || ch == ' ';
+	}), this->expr.end());
 
-    HexaDecimal hex("23");
+	CheckNegativeUnary();
 
-    result = hex.ConvertToDecimal();
-
-    cout << result << endl;
+	n_token_count = 0;
 }
 
-// 프로그램 실행: <Ctrl+F5> 또는 [디버그] > [디버깅하지 않고 시작] 메뉴
-// 프로그램 디버그: <F5> 키 또는 [디버그] > [디버깅 시작] 메뉴
+Calculator::~Calculator()
+{
+	delete ps;
 
-// 시작을 위한 팁: 
-//   1. [솔루션 탐색기] 창을 사용하여 파일을 추가/관리합니다.
-//   2. [팀 탐색기] 창을 사용하여 소스 제어에 연결합니다.
-//   3. [출력] 창을 사용하여 빌드 출력 및 기타 메시지를 확인합니다.
-//   4. [오류 목록] 창을 사용하여 오류를 봅니다.
-//   5. [프로젝트] > [새 항목 추가]로 이동하여 새 코드 파일을 만들거나, [프로젝트] > [기존 항목 추가]로 이동하여 기존 코드 파일을 프로젝트에 추가합니다.
-//   6. 나중에 이 프로젝트를 다시 열려면 [파일] > [열기] > [프로젝트]로 이동하고 .sln 파일을 선택합니다.
+	for (int i = 0; i < 300; i++) 
+	{
+		if (tokens[i])
+		{
+			delete tokens[i];
+		}
+	}
+}
+
+string Calculator::Calculate()
+{
+	if (Lexical())
+	{
+		if (Syntax())
+		{
+			Parsing();
+			PostOrderView();
+
+			string answer = Processing();
+
+			if (answer.at(0) == '-') 
+			{
+				return '(' + answer + ')';
+			}
+			else
+			{
+				return answer;
+			}
+		}
+		else 
+		{
+			cout << "Wrong Syntax";
+			return "";
+		}
+	}
+	else
+	{
+		cout << "Wrong Lexical" << endl;
+		return "";
+	}
+}
+
+int Calculator::MakeOperator(int i)
+{
+	tokens[n_token_count] = new Operator(expr.at(i));
+
+	/*unary negative check*/
+	if (expr.at(i + 1) == '-') 
+	{
+		expr.erase(i + 1, 1);
+		static_cast<Operator*>(tokens[n_token_count])->m_bRightValueNegative = true;
+	}
+
+	n_token_count++;
+
+	return i + 1;
+}
+
+int Calculator::MakeOperand(int i)
+{
+	int startIdx, endIdx;  
+	startIdx = i;
+
+	while (IsDigit(expr.at(i)) || IsDifferentNumeralSystem(expr.at(i)))
+	{
+		i++;
+
+		if (expr.length() <= i) 
+		{
+			break;
+		}
+	}
+
+	endIdx = i;
+
+	string str = expr.substr(startIdx, (endIdx - startIdx));
+
+	tokens[n_token_count++] = new Operand(str);
+
+	return endIdx;
+}
+
+int Calculator::Lexical()
+{
+	int i = 0;
+	while (expr.at(i))
+	{
+		if (IsOperator(expr.at(i)))
+		{
+			i = MakeOperator(i);
+		}
+		else
+		{
+			if (IsDigit(expr.at(i)) || IsDifferentNumeralSystem(expr.at(i)))
+			{
+				i = MakeOperand(i);
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		if (expr.length() <= i) 
+		{
+			break;
+		}
+	}
+
+	return true;
+}
+
+bool Calculator::Syntax()
+{
+	if (n_token_count % 2 == 0)
+	{
+		return false;
+	}
+	if (tokens[0]->priority != 3)
+	{
+		return false;
+	}
+	for (int i = 1; i < n_token_count; i += 2)
+	{
+		if (tokens[i]->priority == 3)
+		{
+			return false;
+		}
+		if (tokens[i + 1]->priority != 3)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+void Calculator::Parsing()
+{
+	ps = new ParserTree(tokens[0]);
+
+	for (int i = 1; i < n_token_count; i++) 
+	{
+		ps->Add(tokens[i]);
+	}
+}
+
+void Calculator::PostOrderView()
+{
+	ps->View();
+}
+
+string Calculator::Processing()
+{
+	return ps->Calculate();
+}
+
+void Calculator::CheckNegativeUnary()
+{ 
+	if (expr.at(0) == '-' && isdigit(expr.at(1)))
+	{
+		expr = "0" + expr;
+	}
+}
+
+bool Calculator::IsOperator(char ch)
+{
+	return (ch == '+') | (ch == '-') | (ch == '*') | (ch == '/');
+}
+
+bool Calculator::IsDigit(char ch)
+{
+	return (ch >= '0') && (ch <= '9');
+}
+
+bool Calculator::IsDifferentNumeralSystem(char ch)
+{
+	return (ch == 'b') || (ch == 'x');
+}

@@ -10,9 +10,7 @@ public:
 	virtual string ConvertToHexaDecimal() = 0;
 
 	virtual void SetNumber(string str_num) = 0;
-
-protected:
-	
+	string GetNumber();
 
 protected:
 	string digitNumber;
