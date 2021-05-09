@@ -21,10 +21,10 @@ string HexaDecimal::ConvertToBinary()
 		result += GetBinaryByHex(number.at(i));
 	}
 
-	while (result.at(0) == '0') 
+	/*while (result.at(0) == '0') 
 	{
 		result.erase(0, 1);
-	}
+	}*/
 
 	return result;
 }
@@ -47,9 +47,11 @@ void HexaDecimal::SetNumber(string str_num)
 
 	for (int i = 0; i < str_num.length(); i++)
 	{
-		unsigned int num = str_num.at(i) & ~0b0110000;
+		unsigned int num = str_num.at(i);
 
-		if ((num & ~0b1111))
+		if (((num > 0b1000000 && num < 0b1000111) ||
+			(num > 0b1100000 && num < 0b1100111) ||
+			(num >= 0b110000 && num <= 0b111001)) == false)
 		{
 			digitNumber = "0";
 		}
@@ -98,27 +100,27 @@ string HexaDecimal::GetBinaryByHex(char hex)
 	{
 		return "1001";
 	}
-	else if (hex == 'A')
+	else if (hex == 'A' || hex == 'a')
 	{
 		return "1010";
 	}
-	else if (hex == 'B')
+	else if (hex == 'B' || hex == 'b')
 	{
 		return "1011";
 	}
-	else if (hex == 'C')
+	else if (hex == 'C' || hex == 'c')
 	{
 		return "1100";
 	}
-	else if (hex == 'D')
+	else if (hex == 'D' || hex == 'd')
 	{
 		return "1101";
 	}
-	else if (hex == 'E')
+	else if (hex == 'E' || hex == 'e')
 	{
 		return "1110";
 	}
-	else if (hex == 'F')
+	else if (hex == 'F' || hex == 'f')
 	{
 		return "1111";
 	}

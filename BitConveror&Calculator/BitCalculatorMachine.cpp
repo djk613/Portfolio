@@ -11,14 +11,18 @@ string BitCalculatorMachine::Calculation(string expr)
         return "0";
     }
 
+    if (expr.find('.') != string::npos) 
+    {
+        return "0";
+    }
+
     expr = '(' + expr + ')';
 
     ParenthesisMgr mgr;
     parenthesis_t* infoArray[ParenthesisMgr::MAX_PAREN] = {};
     memset(infoArray, 0, sizeof(parenthesis_t*) * ParenthesisMgr::MAX_PAREN);
 
-    //string expr = "(-3 * (((3 + 4)) + (2) + ((((2 * (-3)) + b101) + 3) * 2) + 1))";
-
+    /*checking parenthesis position*/
     mgr.Get_matching_parentheses(infoArray, expr);
 
     for (int i = 0; i < ParenthesisMgr::MAX_PAREN; i++)
@@ -50,6 +54,7 @@ string BitCalculatorMachine::Calculation(string expr)
         }
     }
 
+    /*free memory of parenthesis*/
     for (int i = 0; i < ParenthesisMgr::MAX_PAREN; i++)
     {
         if (infoArray[i])
@@ -58,13 +63,14 @@ string BitCalculatorMachine::Calculation(string expr)
         }
     }
 
+    /*erase unnecessary letters of answer*/
     expr.erase(remove_if(expr.begin(), expr.end(), [](const char ch) {
         return ch == '(' || ch == ')' || ch == ' ';
     }), expr.end());
 
     for (int i = 0; i < expr.length(); i++)
     {
-        if (expr.at(i) == '0')
+        if (expr.at(i) == '0' && expr.length() != 1)
         {
             expr.erase(0, 1);
         }

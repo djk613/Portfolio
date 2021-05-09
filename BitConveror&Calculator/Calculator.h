@@ -27,7 +27,8 @@ private:
 
 	bool IsOperator(char ch);
 	bool IsDigit(char ch);
-	bool IsDifferentNumeralSystem(char ch);
+	bool IsBinarySystem(char ch);
+	bool IsHexaSystem(char ch);
 
 private:
 	static string expr;

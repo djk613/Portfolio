@@ -381,7 +381,7 @@ void DigitOperator::Trim(string& number)
     {
         int n_countZero = 0;
         
-        while (number.at(++n_countZero) == '0')
+        while (number[++n_countZero] == '0')
         {
         }
 
@@ -457,5 +457,6 @@ string DigitOperator::SetOverflowOnComplement(string number)
         }
     }
 
-    return '1' + number;
+    number.at(0) = '1';
+    return number;
 }

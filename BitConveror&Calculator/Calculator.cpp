@@ -51,13 +51,13 @@ string Calculator::Calculate()
 		else 
 		{
 			cout << "Wrong Syntax";
-			return "";
+			return "0";
 		}
 	}
 	else
 	{
 		cout << "Wrong Lexical" << endl;
-		return "";
+		return "0";
 	}
 }
 
@@ -65,8 +65,10 @@ int Calculator::MakeOperator(int i)
 {
 	tokens[n_token_count] = new Operator(expr.at(i));
 
-	/*unary negative check*/
-	if (expr.at(i + 1) == '-') 
+	/*unary negative check
+	operators like *-, /-, +-, --, can be managed here..
+	but recommanding using parenthesis with unary operator*/
+	if (expr[i + 1] == '-') 
 	{
 		expr.erase(i + 1, 1);
 		static_cast<Operator*>(tokens[n_token_count])->m_bRightValueNegative = true;
@@ -82,7 +84,7 @@ int Calculator::MakeOperand(int i)
 	int startIdx, endIdx;  
 	startIdx = i;
 
-	while (IsDigit(expr.at(i)) || IsDifferentNumeralSystem(expr.at(i)))
+	while (IsDigit(expr.at(i)) || IsBinarySystem(expr.at(i)) || IsHexaSystem(expr.at(i)))
 	{
 		i++;
 
@@ -112,7 +114,7 @@ int Calculator::Lexical()
 		}
 		else
 		{
-			if (IsDigit(expr.at(i)) || IsDifferentNumeralSystem(expr.at(i)))
+			if (IsDigit(expr.at(i)) || IsBinarySystem(expr.at(i)) || IsHexaSystem(expr.at(i)))
 			{
 				i = MakeOperand(i);
 			}
@@ -193,7 +195,20 @@ bool Calculator::IsDigit(char ch)
 	return (ch >= '0') && (ch <= '9');
 }
 
-bool Calculator::IsDifferentNumeralSystem(char ch)
+bool Calculator::IsBinarySystem(char ch)
 {
-	return (ch == 'b') || (ch == 'x');
+	return (ch == 'B') || (ch == 'b');
 }
+
+bool Calculator::IsHexaSystem(char ch)
+{
+	return (ch == 'x') || (ch == 'X') 
+		|| (ch == 'a') || (ch == 'A')
+		|| (ch == 'b') || (ch == 'B')
+		|| (ch == 'c') || (ch == 'C')
+		|| (ch == 'd') || (ch == 'D')
+		|| (ch == 'e') || (ch == 'E')
+		|| (ch == 'f') || (ch == 'F');
+}
+
+
