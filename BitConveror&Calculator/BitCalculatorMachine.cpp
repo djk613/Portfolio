@@ -6,6 +6,11 @@ BitCalculatorMachine::BitCalculatorMachine()
 
 string BitCalculatorMachine::Calculation(string expr)
 {
+    if (expr.length() == 0) 
+    {
+        return "0";
+    }
+
     expr = '(' + expr + ')';
 
     ParenthesisMgr mgr;
@@ -56,6 +61,14 @@ string BitCalculatorMachine::Calculation(string expr)
     expr.erase(remove_if(expr.begin(), expr.end(), [](const char ch) {
         return ch == '(' || ch == ')' || ch == ' ';
     }), expr.end());
+
+    for (int i = 0; i < expr.length(); i++)
+    {
+        if (expr.at(i) == '0')
+        {
+            expr.erase(0, 1);
+        }
+    }
 
     return expr;
 }

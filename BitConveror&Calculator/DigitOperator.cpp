@@ -171,6 +171,8 @@ string DigitOperator::GetTwoComplement(string binary)
         break;
     }
 
+    result = SetOverflowOnComplement(result);
+
     return result;
 }
 
@@ -443,4 +445,17 @@ void DigitOperator::SetNumbersForUseOnOperator(string& num1, string& num2)
     {
         num2 += "0";
     }
+}
+
+string DigitOperator::SetOverflowOnComplement(string number)
+{
+    for (int i = 0; i < number.length(); i++)
+    {
+        if (number.at(i) == '1')
+        {
+            return number;
+        }
+    }
+
+    return '1' + number;
 }

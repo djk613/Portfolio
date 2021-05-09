@@ -29,5 +29,8 @@ private:
 	/*this is converting numbers for using customized algorithm.
 	It cannot be used anywhere.*/
 	static void SetNumbersForUseOnOperator(string& num1, string& num2);
+
+	static string SetOverflowOnComplement(string number);
+
 };
 
