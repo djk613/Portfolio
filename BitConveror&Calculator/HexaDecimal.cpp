@@ -16,15 +16,15 @@ string HexaDecimal::ConvertToBinary()
 
 	string result;
 
-	for (int i = 0; i < number.length(); i++) 
+	for (size_t i = 0; i < number.length(); i++) 
 	{
 		result += GetBinaryByHex(number.at(i));
 	}
 
-	/*while (result.at(0) == '0') 
+	while (result.at(0) == '0') 
 	{
 		result.erase(0, 1);
-	}*/
+	}
 
 	return result;
 }
@@ -45,7 +45,7 @@ void HexaDecimal::SetNumber(string str_num)
 {
 	digitNumber = str_num;
 
-	for (int i = 0; i < str_num.length(); i++)
+	for (size_t i = 0; i < str_num.length(); i++)
 	{
 		unsigned int num = str_num.at(i);
 
@@ -124,4 +124,6 @@ string HexaDecimal::GetBinaryByHex(char hex)
 	{
 		return "1111";
 	}
+
+	return "0000";
 }

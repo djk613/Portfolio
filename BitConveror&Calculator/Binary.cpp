@@ -43,7 +43,7 @@ string Binary::ConvertToDecimal()
 
 	if (b_signed) 
 	{
-		result = "-" + result;
+		result = "(-" + result + ")";
 	}
 
 	return result;
@@ -162,4 +162,6 @@ char Binary::GetHexByBinary(string binary)
 	{
 		return 'F';
 	}
+
+	return '0';
 }

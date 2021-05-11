@@ -3,7 +3,7 @@
 #include "Includes.h"
 
 /*class helping for calculation operation between string to string with Decimal digit format*/
-static class DigitOperator
+class DigitOperator
 {
 public:
 	static string Add(string num1, string num2);
@@ -31,6 +31,5 @@ private:
 	static void SetNumbersForUseOnOperator(string& num1, string& num2);
 
 	static string SetOverflowOnComplement(string number);
-
 };
 

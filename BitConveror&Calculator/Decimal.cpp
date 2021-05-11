@@ -17,6 +17,11 @@ string Decimal::ConvertToBinary()
 	string result;
 	string number = digitNumber;
 
+	if (number == "0")
+	{
+		return "0";
+	}
+
 	if (b_negative)
 	{
 		number.erase(0, 1);
@@ -58,6 +63,11 @@ string Decimal::ConvertToBinary()
 
 string Decimal::ConvertToDecimal()
 {
+	if (digitNumber[0] == '-')
+	{
+		digitNumber = "(" + digitNumber + ")";
+	}
+
 	return digitNumber;
 }
 
@@ -72,9 +82,15 @@ void Decimal::SetNumber(string str_num)
 {
 	digitNumber = str_num;
 
-	size_t loopIdx = 0u;
-	int number_len = str_num.length();
-	if (str_num.at(0) == '-')
+	if (digitNumber[0] == '(' && digitNumber[digitNumber.length() - 1] == ')')
+	{
+		digitNumber.erase(digitNumber.length() - 1, 1);
+		digitNumber.erase(0, 1);
+	}
+
+	int loopIdx = 0u;
+	int number_len = digitNumber.length();
+	if (digitNumber.at(0) == '-')
 	{
 		loopIdx++;
 		number_len--;
@@ -82,7 +98,7 @@ void Decimal::SetNumber(string str_num)
 
 	for (; loopIdx < number_len; loopIdx++)
 	{
-		unsigned int num = str_num.at(loopIdx) & ~0b0110000;
+		unsigned int num = digitNumber.at(loopIdx) & ~0b0110000;
 
 		if (num < 0 || num > 9)
 		{

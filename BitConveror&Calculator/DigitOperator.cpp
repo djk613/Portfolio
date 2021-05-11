@@ -218,7 +218,7 @@ string DigitOperator::Sum(string num1, string num2)
 
     int n_overDigit = 0;
 
-    for (int i = 0; i < num1.length(); i++)
+    for (size_t i = 0; i < num1.length(); i++)
     {
         int num = (num1.at(i) & ~0b0110000) + (num2.at(i) & ~0b0110000) + n_overDigit;
         n_overDigit = (num / 10);
@@ -244,7 +244,7 @@ string DigitOperator::Difference(string num1, string num2)
 
     int n_overDigit = 0;
 
-    for (int i = 0; i < num1.length(); i++)
+    for (size_t i = 0; i < num1.length(); i++)
     {
         int num = (num1.at(i) & ~0b0110000) - (num2.at(i) & ~0b0110000) + n_overDigit;
 
@@ -279,7 +279,7 @@ string DigitOperator::Multiply(string num1, string num2)
     int n_overDigit = 0;
 
     /*way of operating here is multiplying whole digits of the num1 with num2's each element*/
-    for (int i = 0; i < num1.length(); i++)
+    for (size_t i = 0; i < num1.length(); i++)
     {
         if ((num1.at(i) & ~0b0110000) == 0)
         {
@@ -289,7 +289,7 @@ string DigitOperator::Multiply(string num1, string num2)
             continue;
         }
 
-        for (int j = 0; j < num2.length(); j++)
+        for (size_t j = 0; j < num2.length(); j++)
         {
             /*if element 0, this element will not be multiplied and skipped*/
             if ((num2.at(j) & ~0b0110000) == 0)
@@ -310,7 +310,7 @@ string DigitOperator::Multiply(string num1, string num2)
         mulSum = "";
         n_overDigit = 0;
 
-        for (int k = 0; k <= i; k++)
+        for (size_t k = 0; k <= i; k++)
         {
             /*This part is for applying exponent to result*/
             mulSum += "0";
@@ -400,7 +400,7 @@ int DigitOperator::Compare(string num1, string num2)
         return -1;
     }
 
-    for (int i = 0; i < num1.length(); i++) 
+    for (size_t i = 0; i < num1.length(); i++) 
     {
         if (num1.at(i) > num2.at(i))
         {
@@ -436,12 +436,12 @@ void DigitOperator::SetNumbersForUseOnOperator(string& num1, string& num2)
     /*Sum and Difference fuction need comparing numbers whole elements,
     so lower number's string will be filling with 0
     ex. 1241-> 124100000 vs 000000001*/
-    for (int i = num1.length(); i < number_length; i++)
+    for (size_t i = num1.length(); i < number_length; i++)
     {
         num1 += "0";
     }
 
-    for (int i = num2.length(); i < number_length; i++)
+    for (size_t i = num2.length(); i < number_length; i++)
     {
         num2 += "0";
     }
@@ -449,7 +449,7 @@ void DigitOperator::SetNumbersForUseOnOperator(string& num1, string& num2)
 
 string DigitOperator::SetOverflowOnComplement(string number)
 {
-    for (int i = 0; i < number.length(); i++)
+    for (size_t i = 0; i < number.length(); i++)
     {
         if (number.at(i) == '1')
         {

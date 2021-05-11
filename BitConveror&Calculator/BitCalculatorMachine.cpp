@@ -32,8 +32,8 @@ string BitCalculatorMachine::Calculation(string expr)
             break;
         }
 
-        int start = infoArray[i]->opening_index;
-        int sub_expr_len = infoArray[i]->closing_index - start + 1;
+        size_t start = infoArray[i]->opening_index;
+        size_t sub_expr_len = infoArray[i]->closing_index - start + 1;
 
         string sub_expr = expr.substr(start, sub_expr_len);
 
@@ -41,7 +41,7 @@ string BitCalculatorMachine::Calculation(string expr)
         sub_expr = cal->Calculate();
         delete cal;
 
-        for (int j = 0; j < sub_expr_len; j++)
+        for (size_t j = 0; j < sub_expr_len; j++)
         {
             if (sub_expr.length() > j)
             {
@@ -68,7 +68,7 @@ string BitCalculatorMachine::Calculation(string expr)
         return ch == '(' || ch == ')' || ch == ' ';
     }), expr.end());
 
-    for (int i = 0; i < expr.length(); i++)
+    for (size_t i = 0; i < expr.length(); i++)
     {
         if (expr.at(i) == '0' && expr.length() != 1)
         {

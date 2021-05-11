@@ -3,6 +3,8 @@
 string Calculator::expr = "";
 int Calculator::n_token_count = 0;
 
+
+
 Calculator::Calculator(string expr)
 {
 	this->expr = expr;
@@ -61,7 +63,7 @@ string Calculator::Calculate()
 	}
 }
 
-int Calculator::MakeOperator(int i)
+int Calculator::MakeOperator(size_t i)
 {
 	tokens[n_token_count] = new Operator(expr.at(i));
 
@@ -79,9 +81,9 @@ int Calculator::MakeOperator(int i)
 	return i + 1;
 }
 
-int Calculator::MakeOperand(int i)
+int Calculator::MakeOperand(size_t i)
 {
-	int startIdx, endIdx;  
+	size_t startIdx, endIdx;  
 	startIdx = i;
 
 	while (IsDigit(expr.at(i)) || IsBinarySystem(expr.at(i)) || IsHexaSystem(expr.at(i)))
@@ -105,7 +107,7 @@ int Calculator::MakeOperand(int i)
 
 int Calculator::Lexical()
 {
-	int i = 0;
+	size_t i = 0;
 	while (expr.at(i))
 	{
 		if (IsOperator(expr.at(i)))

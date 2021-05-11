@@ -13,8 +13,8 @@ public:
 
 	string Calculate();
 	
-	int MakeOperator(int i);
-	int MakeOperand(int i);
+	int MakeOperator(size_t i);
+	int MakeOperand(size_t i);
 
 private:
 	int Lexical();
@@ -34,7 +34,7 @@ private:
 	static string expr;
 	static int n_token_count;
 
-	Token* tokens[300];
+	Token* tokens[300] = { 0 };
 
 	ParserTree* ps;
 };
