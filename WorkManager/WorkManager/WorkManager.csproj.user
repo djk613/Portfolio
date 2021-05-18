@@ -1,13 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Compile Update="AddItemForm.cs">
+    <Compile Update="work_mgr_forms\Additem_DB_Form.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="CheckItemForm.cs">
+    <Compile Update="work_mgr_forms\AddItem_Local_Form.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="MainForm.cs">
+    <Compile Update="work_mgr_forms\CheckItemForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="work_mgr_forms\ChangePWForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="work_mgr_forms\CreateID_form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="work_mgr_forms\Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="work_mgr_forms\Work_DB_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="work_mgr_forms\Work_Local_Form.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
