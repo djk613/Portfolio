@@ -5,7 +5,6 @@ C:\Users\user\source\repos\WorkManager\WorkManager\bin\Debug\netcoreapp3.1\WorkM
 C:\Users\user\source\repos\WorkManager\WorkManager\bin\Debug\netcoreapp3.1\WorkManager.dll
 C:\Users\user\source\repos\WorkManager\WorkManager\bin\Debug\netcoreapp3.1\WorkManager.pdb
 C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.csprojAssemblyReference.cache
-C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.CheckItemForm.resources
 C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.csproj.GenerateResource.cache
 C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.AssemblyInfoInputs.cache
 C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.AssemblyInfo.cs
@@ -26,6 +25,9 @@ C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkM
 C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.ChangePWForm.resources
 C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.CreateID_form.resources
 C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.Work_Local_Form.resources
-C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.AddItem_Local_Form.resources
 C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.Work_DB_Form.resources
-C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.Additem_DB_Form.resources
+C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.Add_Item_DB_Form.resources
+C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.Add_Item_Local_Form.resources
+C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.Check_Item_Local_Form.resources
+C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.IP_And_Port_form.resources
+C:\Users\user\source\repos\WorkManager\WorkManager\obj\Debug\netcoreapp3.1\WorkManager.Check_Item_DB_Form.resources

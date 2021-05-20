@@ -13,13 +13,12 @@ namespace TCP_SOCKET_NETWORK
 {
     public class Net_Server
     {
-        public const string test_server_ip = "test";
+        public static readonly string test_server_ip;
 
         public TcpListener server { get; private set; }
         public bool b_server_block { get; set; }
         private NetworkStream netStream = null;
         private TcpClient client;
-        private const int bindPort = 5425; /*확정아님*/
 
         static private uint msgid = 0;
         static private string dir = "C:\\upload";
@@ -28,16 +27,8 @@ namespace TCP_SOCKET_NETWORK
         {
             IPEndPoint localAddress;
 
-            if (ip == test_server_ip)
-            {
-                localAddress = new IPEndPoint(0, bindPort);
-            }
-            else
-            {
-                IPAddress ipv4 = new IPAddress(Encoding.UTF8.GetBytes(ip));
-                localAddress = new IPEndPoint(ipv4, bindPort);
-            }
-            
+            IPAddress ipv4 = IPAddress.Parse(ip);
+            localAddress = new IPEndPoint(ipv4, port);
 
             /*Server Declaration and start to run here*/
             server = new TcpListener(localAddress);

@@ -1,7 +1,7 @@
 ﻿
 namespace WorkManager
 {
-    partial class CheckItemForm
+    partial class Check_Item_Local_Form
     {
         /// <summary>
         /// Required designer variable.
@@ -30,8 +30,6 @@ namespace WorkManager
         private void InitializeComponent()
         {
             this.btnErase = new System.Windows.Forms.Button();
-            this.buttonOpenFolder = new System.Windows.Forms.Button();
-            this.textBoxFilePath = new System.Windows.Forms.TextBox();
             this.labelContext = new System.Windows.Forms.Label();
             this.labelTitle = new System.Windows.Forms.Label();
             this.textBoxTitle = new System.Windows.Forms.TextBox();
@@ -40,30 +38,13 @@ namespace WorkManager
             // 
             // btnErase
             // 
-            this.btnErase.Location = new System.Drawing.Point(400, 415);
+            this.btnErase.Location = new System.Drawing.Point(399, 384);
             this.btnErase.Name = "btnErase";
             this.btnErase.Size = new System.Drawing.Size(89, 30);
             this.btnErase.TabIndex = 15;
-            this.btnErase.Text = "작업내역삭제";
+            this.btnErase.Text = "확인";
             this.btnErase.UseVisualStyleBackColor = true;
             this.btnErase.Click += new System.EventHandler(this.btnErase_Click);
-            // 
-            // buttonOpenFolder
-            // 
-            this.buttonOpenFolder.Location = new System.Drawing.Point(382, 385);
-            this.buttonOpenFolder.Name = "buttonOpenFolder";
-            this.buttonOpenFolder.Size = new System.Drawing.Size(107, 23);
-            this.buttonOpenFolder.TabIndex = 13;
-            this.buttonOpenFolder.Text = "파일열기";
-            this.buttonOpenFolder.UseVisualStyleBackColor = true;
-            this.buttonOpenFolder.Click += new System.EventHandler(this.buttonOpenFolder_Click);
-            // 
-            // textBoxFilePath
-            // 
-            this.textBoxFilePath.Location = new System.Drawing.Point(8, 385);
-            this.textBoxFilePath.Name = "textBoxFilePath";
-            this.textBoxFilePath.Size = new System.Drawing.Size(366, 23);
-            this.textBoxFilePath.TabIndex = 12;
             // 
             // labelContext
             // 
@@ -98,20 +79,19 @@ namespace WorkManager
             this.textBoxContext.Size = new System.Drawing.Size(480, 318);
             this.textBoxContext.TabIndex = 8;
             // 
-            // CheckItemForm
+            // Check_Item_Local_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(497, 455);
+            this.ClientSize = new System.Drawing.Size(497, 423);
             this.Controls.Add(this.btnErase);
-            this.Controls.Add(this.buttonOpenFolder);
-            this.Controls.Add(this.textBoxFilePath);
             this.Controls.Add(this.labelContext);
             this.Controls.Add(this.labelTitle);
             this.Controls.Add(this.textBoxTitle);
             this.Controls.Add(this.textBoxContext);
-            this.Name = "CheckItemForm";
+            this.Name = "Check_Item_Local_Form";
             this.Text = "CheckItemForm";
+            this.Load += new System.EventHandler(this.Check_Item_Local_Form_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -120,8 +100,6 @@ namespace WorkManager
         #endregion
 
         private System.Windows.Forms.Button btnErase;
-        private System.Windows.Forms.Button buttonOpenFolder;
-        private System.Windows.Forms.TextBox textBoxFilePath;
         private System.Windows.Forms.Label labelContext;
         private System.Windows.Forms.Label labelTitle;
         private System.Windows.Forms.TextBox textBoxTitle;

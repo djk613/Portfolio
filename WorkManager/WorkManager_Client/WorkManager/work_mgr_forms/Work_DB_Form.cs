@@ -36,7 +36,7 @@ namespace WorkManager
             DB_workMgr db_work = new DB_workMgr(dataGridView_work, user_id);
             db_work.Connect();
 
-            bool b_search_success = db_work.SearchList();
+            bool b_search_success = db_work.SearchListByDate();
             db_work.Disconnect();
 
             SetComboBox();
@@ -110,7 +110,7 @@ namespace WorkManager
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            Additem_DB_Form item_db_form = new Additem_DB_Form();
+            Add_Item_DB_Form item_db_form = new Add_Item_DB_Form();
             item_db_form.user_id = user_id;
             item_db_form.dataGridView_workList = dataGridView_work;
 
@@ -165,6 +165,12 @@ namespace WorkManager
 
         private void button_delete_Click(object sender, EventArgs e)
         {
+            if(dataGridView_work.RowCount == 1)
+            {
+                MessageBox.Show("삭제할 수 있는 항목이 더 이상 없습니다.");
+                return;
+            }
+
             bool b_pressOK = MessageBox.Show("선택된 항목을 삭제하시겠습니까?", "삭제여부", MessageBoxButtons.OKCancel) == DialogResult.OK;
 
             if(b_pressOK)
@@ -196,7 +202,7 @@ namespace WorkManager
             DB_workMgr db_work = new DB_workMgr(dataGridView_work, user_id);
             db_work.Connect();
 
-            bool b_search_success = db_work.SearchList(year, month, day);
+            bool b_search_success = db_work.SearchListByDate(year, month, day);
             db_work.Disconnect();
 
             SetComboBox();
@@ -204,7 +210,19 @@ namespace WorkManager
 
         private void button_read_details_Click(object sender, EventArgs e)
         {
+            int selected_work_no = Convert.ToInt32(dataGridView_work.Rows[selected_workList_idx].Cells[0].Value.ToString());
 
+            DB_workMgr db_work = new DB_workMgr(dataGridView_work, user_id);
+            db_work.Connect();
+
+            DBWorkNode workNode = new DBWorkNode();
+            db_work.SearchWorkByWorkNo(selected_work_no,ref workNode);
+            
+            Check_Item_DB_Form check_DB_form = new Check_Item_DB_Form();
+            check_DB_form.title = workNode.m_strTitle;
+            check_DB_form.details = workNode.m_strDetails;
+
+            check_DB_form.ShowDialog();
         }
 
         private void button_download_file_Click(object sender, EventArgs e)
@@ -218,7 +236,7 @@ namespace WorkManager
             fileList = db_file.GetFilesLinkedWithWork(selected_work_no);
             db_file.Disconnect();
 
-            Net_Client client = new Net_Client("127.0.0.1");
+            Net_Client client = new Net_Client(Globals.file_IP, Globals.file_port);
             
             foreach(string fileName in fileList)
             {

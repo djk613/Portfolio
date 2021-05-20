@@ -6,11 +6,15 @@ using System.Linq;
 
 namespace WorkManager
 {
-    public class WorkMgr
+    public class Local_WorkMgr
     {
-        public WorkMgr()
+        private List<LocalWorkNode> workNodeList;
+        public string rootPath { private get; set; }
+        private string[] today;
+
+        public Local_WorkMgr()
         {
-            workNodeList = new List<WorkNode>();
+            workNodeList = new List<LocalWorkNode>();
 
             string date = DateTime.Now.ToString("yyyy-MM-dd");
             today = date.Split('-');
@@ -51,7 +55,7 @@ namespace WorkManager
                     continue;
                 }
 
-                WorkNode node = new WorkNode(ulong.Parse(data[0]), data[1], data[2], data[3], data[4]);
+                LocalWorkNode node = new LocalWorkNode(ulong.Parse(data[0]), data[1], data[2], data[3], data[4]);
 
                 workNodeList.Add(node);
             }
@@ -70,16 +74,27 @@ namespace WorkManager
             /*Write date on a txt file*/
             using (StreamWriter sw = new StreamWriter(GetTempPath()))
             {
-                foreach(WorkNode node in workNodeList)
+                foreach(LocalWorkNode node in workNodeList)
                 {
                     sw.WriteLine(node.ToString());
                 }
             }
         }
 
-        public List<WorkNode> GetWorkNodeList()
+        public List<LocalWorkNode> GetWorkNodeList()
         {
             return workNodeList;
+        }
+
+        public void AddNodeToList(LocalWorkNode node)
+        {
+            RecordFiles(ref node);
+            workNodeList.Add(node);
+        }
+
+        public void DeleteNodeInList(LocalWorkNode node)
+        {
+            workNodeList.Remove(node);
         }
 
         public string GetPathRoot()
@@ -107,9 +122,32 @@ namespace WorkManager
             return GetPathRoot() + '\\' + "record.txt";
         }
 
-        private List<WorkNode> workNodeList;
-        public string rootPath { private get; set; }
-        private string[] today;
+        private void RecordFiles(ref LocalWorkNode node)
+        {
+            string date = DateTime.Now.ToString("yyyy-MM-dd");
+            string[] day = date.Split('-');
 
+            /*file move*/
+            string path = node.linkedFile;
+            string newPath = new string(@"..\");
+            newPath = newPath + '\\' + day[0];
+            newPath = newPath + '\\' + day[1];
+            newPath = newPath + '\\' + day[2];
+
+            DirectoryInfo di = new DirectoryInfo(newPath);
+            if (di.Exists == false)
+            {
+                di.Create();
+            }
+
+            newPath = newPath + '\\' + Path.GetFileName(path);
+
+            if (path.Length != 0)
+            {
+                System.IO.File.Move(path, newPath);
+            }
+
+            node.linkedFile = newPath;
+        }
     }
 }

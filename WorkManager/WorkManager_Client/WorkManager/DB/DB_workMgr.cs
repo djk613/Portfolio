@@ -20,7 +20,7 @@ namespace WorkManager
         }
 
        
-        public bool SearchList(int year = 0, int month = 0, int day = 0)
+        public bool SearchListByDate(int year = 0, int month = 0, int day = 0)
         { 
             try
             {
@@ -80,6 +80,37 @@ namespace WorkManager
             }
 
             return true;
+        }
+
+        public bool SearchWorkByWorkNo(int work_no, ref DBWorkNode workNode)
+        {
+            try
+            {
+                string query;
+                MySqlCommand command;
+                MySqlDataReader reader;
+
+                query = string.Format("SELECT * FROM work_mgr.work_tb WHERE work_no={0}", work_no);
+                command = new MySqlCommand(query, connect);
+                reader = command.ExecuteReader();
+
+                while(reader.Read())
+                {
+                    workNode.m_nWork_no = reader.GetInt32(0);
+                    workNode.m_strUser_id = reader.GetString(1);
+                    workNode.m_date = reader.GetDateTime(2);
+                    workNode.m_strTitle = reader.GetString(3);
+                    workNode.m_strDetails = reader.GetString(4);
+                }
+
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            return false;
         }
 
         public bool DeleteList(int work_no)

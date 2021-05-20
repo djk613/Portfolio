@@ -1,7 +1,7 @@
 ﻿
 namespace WorkManager
 {
-    partial class AddItem_Local_Form
+    partial class Add_Item_Local_Form
     {
         /// <summary>
         /// Required designer variable.

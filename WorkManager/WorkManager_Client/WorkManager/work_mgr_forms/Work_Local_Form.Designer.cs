@@ -30,7 +30,6 @@ namespace WorkManager
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.labelYear = new System.Windows.Forms.Label();
             this.comboYear = new System.Windows.Forms.ComboBox();
@@ -47,16 +46,9 @@ namespace WorkManager
             this.linkedFile = new System.Windows.Forms.ColumnHeader();
             this.details = new System.Windows.Forms.ColumnHeader();
             this.listViewMain = new System.Windows.Forms.ListView();
-            this.label3 = new System.Windows.Forms.Label();
+            this.button_read_details = new System.Windows.Forms.Button();
+            this.button_delete = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(561, 24);
-            this.menuStrip1.TabIndex = 0;
-            this.menuStrip1.Text = "menuStrip1";
             // 
             // contextMenuStrip1
             // 
@@ -66,7 +58,7 @@ namespace WorkManager
             // labelYear
             // 
             this.labelYear.AutoSize = true;
-            this.labelYear.Location = new System.Drawing.Point(96, 31);
+            this.labelYear.Location = new System.Drawing.Point(96, 13);
             this.labelYear.Name = "labelYear";
             this.labelYear.Size = new System.Drawing.Size(19, 15);
             this.labelYear.TabIndex = 2;
@@ -75,7 +67,7 @@ namespace WorkManager
             // comboYear
             // 
             this.comboYear.FormattingEnabled = true;
-            this.comboYear.Location = new System.Drawing.Point(12, 27);
+            this.comboYear.Location = new System.Drawing.Point(12, 9);
             this.comboYear.Name = "comboYear";
             this.comboYear.Size = new System.Drawing.Size(78, 23);
             this.comboYear.TabIndex = 3;
@@ -84,7 +76,7 @@ namespace WorkManager
             // comboMonth
             // 
             this.comboMonth.FormattingEnabled = true;
-            this.comboMonth.Location = new System.Drawing.Point(121, 27);
+            this.comboMonth.Location = new System.Drawing.Point(121, 9);
             this.comboMonth.Name = "comboMonth";
             this.comboMonth.Size = new System.Drawing.Size(78, 23);
             this.comboMonth.TabIndex = 5;
@@ -93,7 +85,7 @@ namespace WorkManager
             // labelMonth
             // 
             this.labelMonth.AutoSize = true;
-            this.labelMonth.Location = new System.Drawing.Point(205, 31);
+            this.labelMonth.Location = new System.Drawing.Point(205, 13);
             this.labelMonth.Name = "labelMonth";
             this.labelMonth.Size = new System.Drawing.Size(19, 15);
             this.labelMonth.TabIndex = 4;
@@ -102,7 +94,7 @@ namespace WorkManager
             // comboDay
             // 
             this.comboDay.FormattingEnabled = true;
-            this.comboDay.Location = new System.Drawing.Point(230, 27);
+            this.comboDay.Location = new System.Drawing.Point(230, 9);
             this.comboDay.Name = "comboDay";
             this.comboDay.Size = new System.Drawing.Size(78, 23);
             this.comboDay.TabIndex = 7;
@@ -111,7 +103,7 @@ namespace WorkManager
             // labelDay
             // 
             this.labelDay.AutoSize = true;
-            this.labelDay.Location = new System.Drawing.Point(314, 31);
+            this.labelDay.Location = new System.Drawing.Point(314, 13);
             this.labelDay.Name = "labelDay";
             this.labelDay.Size = new System.Drawing.Size(19, 15);
             this.labelDay.TabIndex = 6;
@@ -119,7 +111,7 @@ namespace WorkManager
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(392, 341);
+            this.btnAdd.Location = new System.Drawing.Point(230, 323);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 9;
@@ -130,7 +122,7 @@ namespace WorkManager
             // 
             // btnCheck
             // 
-            this.btnCheck.Location = new System.Drawing.Point(473, 341);
+            this.btnCheck.Location = new System.Drawing.Point(473, 323);
             this.btnCheck.Name = "btnCheck";
             this.btnCheck.Size = new System.Drawing.Size(75, 23);
             this.btnCheck.TabIndex = 10;
@@ -178,7 +170,7 @@ namespace WorkManager
             this.details});
             this.listViewMain.GridLines = true;
             this.listViewMain.HideSelection = false;
-            this.listViewMain.Location = new System.Drawing.Point(12, 57);
+            this.listViewMain.Location = new System.Drawing.Point(12, 39);
             this.listViewMain.Name = "listViewMain";
             this.listViewMain.Size = new System.Drawing.Size(536, 278);
             this.listViewMain.TabIndex = 8;
@@ -186,22 +178,35 @@ namespace WorkManager
             this.listViewMain.View = System.Windows.Forms.View.Details;
             this.listViewMain.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.listViewMain_columnWidthChanging);
             // 
-            // label3
+            // button_read_details
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Buxton Sketch", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label3.Location = new System.Drawing.Point(402, 21);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(146, 29);
-            this.label3.TabIndex = 21;
-            this.label3.Text = "Work Manager";
+            this.button_read_details.Location = new System.Drawing.Point(392, 323);
+            this.button_read_details.Name = "button_read_details";
+            this.button_read_details.Size = new System.Drawing.Size(75, 23);
+            this.button_read_details.TabIndex = 29;
+            this.button_read_details.Text = "상세보기";
+            this.button_read_details.UseVisualStyleBackColor = true;
+            this.button_read_details.UseWaitCursor = true;
+            this.button_read_details.Click += new System.EventHandler(this.button_read_details_Click);
+            // 
+            // button_delete
+            // 
+            this.button_delete.Location = new System.Drawing.Point(311, 323);
+            this.button_delete.Name = "button_delete";
+            this.button_delete.Size = new System.Drawing.Size(75, 23);
+            this.button_delete.TabIndex = 28;
+            this.button_delete.Text = "삭제";
+            this.button_delete.UseVisualStyleBackColor = true;
+            this.button_delete.UseWaitCursor = true;
+            this.button_delete.Click += new System.EventHandler(this.button_delete_Click);
             // 
             // Work_Local_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(561, 374);
-            this.Controls.Add(this.label3);
+            this.ClientSize = new System.Drawing.Size(805, 374);
+            this.Controls.Add(this.button_read_details);
+            this.Controls.Add(this.button_delete);
             this.Controls.Add(this.btnCheck);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.listViewMain);
@@ -211,8 +216,6 @@ namespace WorkManager
             this.Controls.Add(this.labelMonth);
             this.Controls.Add(this.comboYear);
             this.Controls.Add(this.labelYear);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Work_Local_Form";
             this.Text = "Daily Work Manager";
             this.Load += new System.EventHandler(this.MainForm_Load);
@@ -222,8 +225,6 @@ namespace WorkManager
         }
 
         #endregion
-
-        private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.Label labelYear;
         private System.Windows.Forms.ComboBox comboYear;
@@ -243,7 +244,8 @@ namespace WorkManager
         private System.Windows.Forms.ColumnHeader linkedFile;
         private System.Windows.Forms.ColumnHeader details;
         private System.Windows.Forms.ListView listViewMain;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button button_read_details;
+        private System.Windows.Forms.Button button_delete;
     }
 }
 

@@ -12,12 +12,22 @@ namespace WorkManager
 {
     public partial class Work_Local_Form : Form
     {
+        private Local_WorkMgr mgr;
+
         public Work_Local_Form()
         {
             InitializeComponent();
 
             /*instancing manager class*/
-            this.mgr = new WorkMgr();
+            this.mgr = new Local_WorkMgr();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            listViewMain.FullRowSelect = true;
+
+            SetComboBox();
+            SetListViewData();
         }
 
         private void listViewMain_columnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
@@ -28,18 +38,20 @@ namespace WorkManager
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            AddItem_Local_Form addForm = new AddItem_Local_Form();
+            Add_Item_Local_Form addForm = new Add_Item_Local_Form();
 
             addForm.ChildAddFormEvent += AddEventMethod;
 
             addForm.ShowDialog();
+
+            SetLivstViewDataWithFilter();
         }
 
-        public void AddEventMethod(WorkNode node)
+        public void AddEventMethod(LocalWorkNode node)
         {
-            List<WorkNode> workList = mgr.GetWorkNodeList();
+            List<LocalWorkNode> workList = mgr.GetWorkNodeList();
 
-            workList.Add(node);
+            mgr.AddNodeToList(node);
 
             listViewMain.Items.Clear();
             SetListViewData();
@@ -49,32 +61,14 @@ namespace WorkManager
 
         private void btnCheck_Click(object sender, EventArgs e)
         {
-
-        }
-
-        public void EraseEventMethod(WorkNode checkingNode)
-        {
-            List<WorkNode> list = mgr.GetWorkNodeList();
-            WorkNode node = list.Find(listNode => listNode.serialNum == checkingNode.serialNum);
-            list.Remove(node);
-
-            listViewMain.Items.Clear();
-            SetListViewData();
-            SetComboBox();
-            mgr.WriteRecord();
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            SetComboBox();
-            SetListViewData();
+            SetLivstViewDataWithFilter();
         }
 
         private void SetListViewData()
         {
-            List<WorkNode> workList = mgr.GetWorkNodeList();
+            List<LocalWorkNode> workList = mgr.GetWorkNodeList();
 
-            foreach (WorkNode node in workList)
+            foreach (LocalWorkNode node in workList)
             {
                 ListViewItem lvi;
                 lvi = listViewMain.Items.Add(node.date);
@@ -117,10 +111,10 @@ namespace WorkManager
                 day = new string("");
             }
 
-            List<WorkNode> workList = mgr.GetWorkNodeList();
+            List<LocalWorkNode> workList = mgr.GetWorkNodeList();
             listViewMain.Items.Clear();
 
-            foreach (WorkNode node in workList)
+            foreach (LocalWorkNode node in workList)
             {
                 DateTime dt;
                 dt = DateTime.ParseExact(node.date, "yyyy-MM-dd", null);
@@ -140,13 +134,13 @@ namespace WorkManager
 
         private void SetComboBox()
         {
-            List<WorkNode> list = mgr.GetWorkNodeList();
+            List<LocalWorkNode> list = mgr.GetWorkNodeList();
 
             List<string> year = new List<string>();
             List<string> month = new List<string>();
             List<string> day = new List<string>();
 
-            foreach (WorkNode node in list)
+            foreach (LocalWorkNode node in list)
             {
                 DateTime dt;
                 dt = DateTime.ParseExact(node.date, "yyyy-MM-dd", null);
@@ -165,8 +159,6 @@ namespace WorkManager
             comboDay.Items.AddRange(day.ToArray());
         }
 
-        private WorkMgr mgr;
-
         private void comboYear_SelectedIndexChanged(object sender, EventArgs e)
         {
             SetLivstViewDataWithFilter();
@@ -180,6 +172,41 @@ namespace WorkManager
         private void comboDay_SelectedIndexChanged(object sender, EventArgs e)
         {
             SetLivstViewDataWithFilter();
+        }
+
+        private void button_read_details_Click(object sender, EventArgs e)
+        {
+            int selectedIndex;
+
+            if (listViewMain.SelectedItems.Count > 0)
+            {
+                selectedIndex = listViewMain.Items.IndexOf(listViewMain.SelectedItems[0]);
+            
+                List<LocalWorkNode> workList = mgr.GetWorkNodeList();
+                LocalWorkNode node = workList[selectedIndex];
+
+                Check_Item_Local_Form check_local_form = new Check_Item_Local_Form();
+                check_local_form.checkingNode = node;
+
+                check_local_form.ShowDialog();
+            }
+        }
+
+        private void button_delete_Click(object sender, EventArgs e)
+        {
+            int selectedIndex;
+
+            if (listViewMain.SelectedItems.Count > 0)
+            {
+                selectedIndex = listViewMain.Items.IndexOf(listViewMain.SelectedItems[0]);
+
+                List<LocalWorkNode> workList = mgr.GetWorkNodeList();
+                LocalWorkNode node = workList[selectedIndex];
+
+                mgr.DeleteNodeInList(node);
+
+                SetLivstViewDataWithFilter();
+            }
         }
     }
 }

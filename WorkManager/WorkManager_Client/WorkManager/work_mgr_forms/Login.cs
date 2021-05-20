@@ -11,6 +11,8 @@ namespace WorkManager
 {
     public partial class Login : Form
     {
+        public bool hasIPAndPortInfo { get; set; }
+
         private string login_mode { get; set; }
 
         public Login()
@@ -22,6 +24,9 @@ namespace WorkManager
         {
             if(login_mode == "LOCAL")
             {
+                /*if using simple local mode without connecting to server
+                 this application will not use TCP network socket functions,
+                 and files will be stored at user's PC, not server*/
                 Work_Local_Form local_form = new Work_Local_Form();
 
                 this.Visible = false;
@@ -30,31 +35,34 @@ namespace WorkManager
 
                 this.Close();
             }
-
-            DB_userMgr db_user = new DB_userMgr();
-            db_user.Connect();
-
-            string password = HashForPassword.SHA256Hash(textBox_PW.Text);
-
-            bool b_login_success = db_user.LoginID(textBox_ID.Text, password);
-            db_user.Disconnect();
-
-            if (b_login_success)
-            {
-                MessageBox.Show("로그인 되었습니다.");
-
-                this.Visible = false;
-
-                Work_DB_Form work_db = new Work_DB_Form();
-                work_db.user_id = textBox_ID.Text;
-
-                work_db.ShowDialog();
-
-                this.Close();
-            }
             else
             {
-                MessageBox.Show("아이디, 비밀번호가 일치하지 않습니다.");
+                /*ID and password check*/
+                DB_userMgr db_user = new DB_userMgr();
+                db_user.Connect();
+
+                string password = HashForPassword.SHA256Hash(textBox_PW.Text);
+
+                bool b_login_success = db_user.LoginID(textBox_ID.Text, password);
+                db_user.Disconnect();
+
+                if (b_login_success)
+                {
+                    MessageBox.Show("로그인 되었습니다.");
+
+                    this.Visible = false;
+
+                    Work_DB_Form work_db = new Work_DB_Form();
+                    work_db.user_id = textBox_ID.Text;
+
+                    work_db.ShowDialog();
+
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("아이디, 비밀번호가 일치하지 않습니다.");
+                }
             }
         }
 
@@ -82,6 +90,7 @@ namespace WorkManager
 
         private void Login_Load(object sender, EventArgs e)
         {
+
             comboBox_mode.Items.Add("DB");
             comboBox_mode.Items.Add("LOCAL");
 

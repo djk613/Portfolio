@@ -11,12 +11,12 @@ using Protocol;
 
 namespace WorkManager
 {
-    public partial class Additem_DB_Form : Form
+    public partial class Add_Item_DB_Form : Form
     {
         public string user_id { get; set; }
         public DataGridView dataGridView_workList { get; set; }
         private List<string> filesSelected { get; set; }
-        public Additem_DB_Form()
+        public Add_Item_DB_Form()
         {
             InitializeComponent();
         }

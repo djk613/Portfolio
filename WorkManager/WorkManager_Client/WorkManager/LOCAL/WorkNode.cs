@@ -5,9 +5,15 @@ using System.Text;
 
 namespace WorkManager
 {
-    public class WorkNode
+    public class LocalWorkNode
     {
-        public WorkNode(ulong serialNum, string date, string subject, string detailed, string linkedFile = "")
+        public ulong serialNum { get; private set; }
+        public string date { get; private set; }
+        public string subject { get; private set; }
+        public string detailed { get; private set; }
+        public string linkedFile { get; private set; }
+
+        public LocalWorkNode(ulong serialNum, string date, string subject, string detailed, string linkedFile = "")
         {
             this.serialNum = serialNum;
             this.date = date;
@@ -16,7 +22,7 @@ namespace WorkManager
             this.linkedFile = linkedFile;
         }
 
-        public WorkNode(WorkNode node)
+        public LocalWorkNode(LocalWorkNode node)
         {
             this.serialNum = node.serialNum;
             this.date = node.date;
@@ -32,9 +38,9 @@ namespace WorkManager
 
         public override bool Equals(object obj)
         {
-            WorkNode other = obj as WorkNode;
+            LocalWorkNode other = obj as LocalWorkNode;
 
-            return this.serialNum == other.serialNum;
+            return this.serialNum == other.serialNum && this.subject == other.subject && this.date == other.date;
         }
         public override int GetHashCode()
         {
@@ -78,11 +84,7 @@ namespace WorkManager
             return day;
         }
 
-        public ulong serialNum { get; private set; }
-        public string date { get; private set; }
-        public string subject { get; private set; }
-        public string detailed { get; private set; }
-        public string linkedFile { get; private set; }
+        
 
     }
 }

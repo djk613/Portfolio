@@ -19,7 +19,7 @@ namespace TCP_SOCKET_NETWORK
         private static uint msgId;
         static private string dir = "C:\\download";
 
-        public Net_Client(string _serverIP, int _serverPort = 8001)
+        public Net_Client(string _serverIP, int _serverPort = 10387)
         {
             serverIP = _serverIP;
             serverPort = _serverPort;

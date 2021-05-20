@@ -36,7 +36,6 @@ namespace WorkManager
             this.comboMonth = new System.Windows.Forms.ComboBox();
             this.labelMonth = new System.Windows.Forms.Label();
             this.labelYear = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.comboYear = new System.Windows.Forms.ComboBox();
             this.dataGridView_work = new System.Windows.Forms.DataGridView();
             this.dataGridView_file = new System.Windows.Forms.DataGridView();
@@ -112,16 +111,6 @@ namespace WorkManager
             this.labelYear.Size = new System.Drawing.Size(19, 15);
             this.labelYear.TabIndex = 11;
             this.labelYear.Text = "년";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Buxton Sketch", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label3.Location = new System.Drawing.Point(12, 325);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(146, 29);
-            this.label3.TabIndex = 20;
-            this.label3.Text = "Work Manager";
             // 
             // comboYear
             // 
@@ -216,7 +205,6 @@ namespace WorkManager
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridView_file);
             this.Controls.Add(this.dataGridView_work);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.btnCheck);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.comboDay);
@@ -244,7 +232,6 @@ namespace WorkManager
         private System.Windows.Forms.ComboBox comboMonth;
         private System.Windows.Forms.Label labelMonth;
         private System.Windows.Forms.Label labelYear;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboYear;
         private System.Windows.Forms.DataGridView dataGridView_work;
         private System.Windows.Forms.DataGridView dataGridView_file;

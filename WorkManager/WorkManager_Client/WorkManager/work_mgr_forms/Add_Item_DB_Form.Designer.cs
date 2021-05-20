@@ -1,7 +1,7 @@
 ﻿
 namespace WorkManager
 {
-    partial class Additem_DB_Form
+    partial class Add_Item_DB_Form
     {
         /// <summary>
         /// Required designer variable.
@@ -94,7 +94,7 @@ namespace WorkManager
             // 
             this.textBoxTitle.Location = new System.Drawing.Point(12, 30);
             this.textBoxTitle.Name = "textBoxTitle";
-            this.textBoxTitle.Size = new System.Drawing.Size(481, 23);
+            this.textBoxTitle.Size = new System.Drawing.Size(480, 23);
             this.textBoxTitle.TabIndex = 23;
             // 
             // textBoxContext
@@ -133,7 +133,7 @@ namespace WorkManager
             this.label1.TabIndex = 32;
             this.label1.Text = "파일목록";
             // 
-            // Additem_DB_Form
+            // Add_Item_DB_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -148,7 +148,7 @@ namespace WorkManager
             this.Controls.Add(this.labelTitle);
             this.Controls.Add(this.textBoxTitle);
             this.Controls.Add(this.textBoxContext);
-            this.Name = "Additem_DB_Form";
+            this.Name = "Add_Item_DB_Form";
             this.Text = "Additem_DB_Form";
             this.Load += new System.EventHandler(this.Additem_DB_Form_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_fileList)).EndInit();

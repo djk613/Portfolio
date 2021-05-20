@@ -9,12 +9,12 @@ using System.IO;
 
 namespace WorkManager
 {
-    public partial class AddItem_Local_Form : Form
+    public partial class Add_Item_Local_Form : Form
     {
-        public delegate void ChildAddFormSendDataHandler(WorkNode node);
+        public delegate void ChildAddFormSendDataHandler(LocalWorkNode node);
         public event ChildAddFormSendDataHandler ChildAddFormEvent;
 
-        public AddItem_Local_Form()
+        public Add_Item_Local_Form()
         {
             InitializeComponent();
         }
@@ -38,6 +38,7 @@ namespace WorkManager
         {
             if(textBoxTitle.Text.Length == 0)
             {
+                MessageBox.Show("제목의 내용이 필요합니다.");
                 return;
             }
 
@@ -51,27 +52,7 @@ namespace WorkManager
             /*it is possible to make overload... I don't know how much resources will be used for gethashcode func*/
             ulong serialNum = (ulong)subject.GetHashCode() + (ulong)detail.GetHashCode();
 
-            /*file move*/
-            string path = linkedFile;
-            string newPath = new string(@"..\");
-            newPath = newPath + '\\' + day[0];
-            newPath = newPath + '\\' + day[1];
-            newPath = newPath + '\\' + day[2];
-
-            DirectoryInfo di = new DirectoryInfo(newPath);
-            if (di.Exists == false)
-            {
-                di.Create();
-            }
-
-            newPath = newPath + '\\' + Path.GetFileName(textBoxFilePath.Text);
-
-            if(textBoxFilePath.Text.Length != 0)
-            {
-                System.IO.File.Move(path, newPath);
-            }
-
-            WorkNode node = new WorkNode(serialNum, date, subject, detail, newPath);
+            LocalWorkNode node = new LocalWorkNode(serialNum, date, subject, detail, linkedFile);
 
             this.ChildAddFormEvent(node);
 
