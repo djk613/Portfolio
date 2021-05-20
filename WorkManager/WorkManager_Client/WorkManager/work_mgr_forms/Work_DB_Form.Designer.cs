@@ -76,6 +76,7 @@ namespace WorkManager
             this.comboDay.Name = "comboDay";
             this.comboDay.Size = new System.Drawing.Size(78, 23);
             this.comboDay.TabIndex = 16;
+            this.comboDay.SelectedIndexChanged += new System.EventHandler(this.comboDay_SelectedIndexChanged);
             // 
             // labelDay
             // 
@@ -93,6 +94,7 @@ namespace WorkManager
             this.comboMonth.Name = "comboMonth";
             this.comboMonth.Size = new System.Drawing.Size(78, 23);
             this.comboMonth.TabIndex = 14;
+            this.comboMonth.SelectedIndexChanged += new System.EventHandler(this.comboMonth_SelectedIndexChanged);
             // 
             // labelMonth
             // 
@@ -119,6 +121,7 @@ namespace WorkManager
             this.comboYear.Name = "comboYear";
             this.comboYear.Size = new System.Drawing.Size(78, 23);
             this.comboYear.TabIndex = 12;
+            this.comboYear.SelectedIndexChanged += new System.EventHandler(this.comboYear_SelectedIndexChanged);
             // 
             // dataGridView_work
             // 

@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Diagnostics;
 
 namespace WorkManager
 {
@@ -53,6 +55,11 @@ namespace WorkManager
 
             mgr.AddNodeToList(node);
 
+            RefreshViewList();
+        }
+
+        private void RefreshViewList()
+        {
             listViewMain.Items.Clear();
             SetListViewData();
             SetComboBox();
@@ -205,7 +212,26 @@ namespace WorkManager
 
                 mgr.DeleteNodeInList(node);
 
-                SetLivstViewDataWithFilter();
+                RefreshViewList();
+            }
+        }
+
+        private void listViewMain_MouseClick(object sender, MouseEventArgs e)
+        { 
+            if(listViewMain.SelectedIndices.Count > 0)
+            {
+                listView_files.Items.Clear();
+
+                int selectedIdx = listViewMain.SelectedItems[0].Index;
+
+                List<LocalWorkNode> fileList = mgr.GetWorkNodeList();
+                LocalWorkNode node = fileList[selectedIdx];
+
+                foreach (string fileName in node.files)
+                {
+                    ListViewItem lvi;
+                    lvi = listView_files.Items.Add(Path.GetFileName(fileName));
+                }
             }
         }
     }

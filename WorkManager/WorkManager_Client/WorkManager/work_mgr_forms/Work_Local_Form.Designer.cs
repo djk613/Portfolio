@@ -48,6 +48,9 @@ namespace WorkManager
             this.listViewMain = new System.Windows.Forms.ListView();
             this.button_read_details = new System.Windows.Forms.Button();
             this.button_delete = new System.Windows.Forms.Button();
+            this.listView_files = new System.Windows.Forms.ListView();
+            this.col_filName = new System.Windows.Forms.ColumnHeader();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // contextMenuStrip1
@@ -177,6 +180,7 @@ namespace WorkManager
             this.listViewMain.UseCompatibleStateImageBehavior = false;
             this.listViewMain.View = System.Windows.Forms.View.Details;
             this.listViewMain.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.listViewMain_columnWidthChanging);
+            this.listViewMain.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listViewMain_MouseClick);
             // 
             // button_read_details
             // 
@@ -200,11 +204,39 @@ namespace WorkManager
             this.button_delete.UseWaitCursor = true;
             this.button_delete.Click += new System.EventHandler(this.button_delete_Click);
             // 
+            // listView_files
+            // 
+            this.listView_files.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.col_filName});
+            this.listView_files.HideSelection = false;
+            this.listView_files.Location = new System.Drawing.Point(564, 39);
+            this.listView_files.Name = "listView_files";
+            this.listView_files.Size = new System.Drawing.Size(229, 278);
+            this.listView_files.TabIndex = 37;
+            this.listView_files.UseCompatibleStateImageBehavior = false;
+            this.listView_files.View = System.Windows.Forms.View.Details;
+            // 
+            // col_filName
+            // 
+            this.col_filName.Text = "파일이름";
+            this.col_filName.Width = 300;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(564, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(55, 15);
+            this.label1.TabIndex = 36;
+            this.label1.Text = "파일목록";
+            // 
             // Work_Local_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(805, 374);
+            this.Controls.Add(this.listView_files);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.button_read_details);
             this.Controls.Add(this.button_delete);
             this.Controls.Add(this.btnCheck);
@@ -246,6 +278,9 @@ namespace WorkManager
         private System.Windows.Forms.ListView listViewMain;
         private System.Windows.Forms.Button button_read_details;
         private System.Windows.Forms.Button button_delete;
+        private System.Windows.Forms.ListView listView_files;
+        private System.Windows.Forms.ColumnHeader col_filName;
+        private System.Windows.Forms.Label label1;
     }
 }
 

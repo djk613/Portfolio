@@ -11,15 +11,20 @@ namespace WorkManager
         public string date { get; private set; }
         public string subject { get; private set; }
         public string detailed { get; private set; }
-        public string linkedFile { get; private set; }
+        public List<string> files;
 
-        public LocalWorkNode(ulong serialNum, string date, string subject, string detailed, string linkedFile = "")
+        public LocalWorkNode(ulong serialNum, string date, string subject, string detailed, List<string> files)
         {
             this.serialNum = serialNum;
             this.date = date;
             this.subject = subject;
             this.detailed = detailed;
-            this.linkedFile = linkedFile;
+            this.files = new List<string>();
+
+            foreach(var filePath in files)
+            {
+                this.files.Add(filePath);
+            }
         }
 
         public LocalWorkNode(LocalWorkNode node)
@@ -28,12 +33,24 @@ namespace WorkManager
             this.date = node.date;
             this.subject = node.subject;
             this.detailed = node.detailed;
-            this.linkedFile = node.linkedFile;
+            this.files = node.files;
         }
 
         public override string ToString()
         {
-            return serialNum.ToString() + '|' + date + '|' + subject + '|' + detailed + '|' + linkedFile;
+            return serialNum.ToString() + '|' + date + '|' + subject + '|' + detailed + '|' + GetFilesString();
+        }
+
+        public string GetFilesString()
+        {
+            string result = new string("");
+
+            foreach(var filePath in files)
+            {
+                result += filePath + ",";
+            }
+
+            return result;
         }
 
         public override bool Equals(object obj)

@@ -44,38 +44,7 @@ namespace WorkManager
 
         private void btnCheck_Click(object sender, EventArgs e)
         {
-            int year;
-            int month;
-            int day;
-
-            if (comboYear.Text == "")
-            {
-                year = 0;
-            }
-            else
-            {
-                year = Convert.ToInt32(comboYear.Text);
-            }
-
-            if (comboMonth.Text == "")
-            {
-                month = 0;
-            }
-            else
-            {
-                month = Convert.ToInt32(comboMonth.Text);
-            }
-
-            if (comboDay.Text == "")
-            {
-                day = 0;
-            }
-            else
-            {
-                day = Convert.ToInt32(comboDay.Text);
-            }
-
-            RefreshWorkTable(year, month, day);
+            RefreshWorkTableWithComboBox();
         }
 
         private void SetComboBox()
@@ -88,7 +57,7 @@ namespace WorkManager
             List<string> month = new List<string>();
             List<string> day = new List<string>();
 
-            for (int rows = 1; rows < dataGridView_work.Rows.Count - 1; rows++)
+            for (int rows = 0; rows < dataGridView_work.Rows.Count - 1; rows++)
             {
                 string value = dataGridView_work.Rows[rows].Cells[2].Value.ToString();
 
@@ -124,6 +93,11 @@ namespace WorkManager
             selected_workList_idx = e.RowIndex;
 
             if(selected_workList_idx >= (dataGridView_work.RowCount - 1))
+            {
+                return;
+            }
+
+            if(selected_workList_idx == -1)
             {
                 return;
             }
@@ -242,6 +216,57 @@ namespace WorkManager
             {
                 client.Run(Protocol.CLIENT_REQ.RECEIVE_FILE, fileName);
             }
+        }
+
+        private void comboYear_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshWorkTableWithComboBox();
+        }
+
+        private void comboMonth_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshWorkTableWithComboBox();
+        }
+
+        private void comboDay_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshWorkTableWithComboBox();
+        }
+
+        private void RefreshWorkTableWithComboBox()
+        {
+            int year;
+            int month;
+            int day;
+
+            if (comboYear.Text == "")
+            {
+                year = 0;
+            }
+            else
+            {
+                year = Convert.ToInt32(comboYear.Text);
+            }
+
+            if (comboMonth.Text == "")
+            {
+                month = 0;
+            }
+            else
+            {
+                month = Convert.ToInt32(comboMonth.Text);
+            }
+
+            if (comboDay.Text == "")
+            {
+                day = 0;
+            }
+            else
+            {
+                day = Convert.ToInt32(comboDay.Text);
+            }
+
+            RefreshWorkTable(year, month, day);
         }
     }
 }

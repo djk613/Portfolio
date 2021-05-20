@@ -64,9 +64,9 @@ namespace WorkManager
                     filesSelected.Add(filepath);
                     table.Rows.Add(Path.GetFileName(filepath));
                 }
-            }
 
-            dataGridView_fileList.DataSource = table;
+                dataGridView_fileList.DataSource = table;
+            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

@@ -55,7 +55,9 @@ namespace WorkManager
                     continue;
                 }
 
-                LocalWorkNode node = new LocalWorkNode(ulong.Parse(data[0]), data[1], data[2], data[3], data[4]);
+                List<string> list_filesPath =  data[4].Split(',').ToList();
+
+                LocalWorkNode node = new LocalWorkNode(ulong.Parse(data[0]), data[1], data[2], data[3], list_filesPath);
 
                 workNodeList.Add(node);
             }
@@ -124,30 +126,36 @@ namespace WorkManager
 
         private void RecordFiles(ref LocalWorkNode node)
         {
-            string date = DateTime.Now.ToString("yyyy-MM-dd");
-            string[] day = date.Split('-');
+            string[] day = node.date.Split('-');
 
             /*file move*/
-            string path = node.linkedFile;
             string newPath = new string(@"..\");
-            newPath = newPath + '\\' + day[0];
+            newPath = newPath + day[0];
             newPath = newPath + '\\' + day[1];
             newPath = newPath + '\\' + day[2];
 
             DirectoryInfo di = new DirectoryInfo(newPath);
+
             if (di.Exists == false)
             {
                 di.Create();
             }
 
-            newPath = newPath + '\\' + Path.GetFileName(path);
+            List<string> filesPath = node.files;
+            List<string> newFilesPath = new List<string>();
 
-            if (path.Length != 0)
+            foreach (var path in filesPath)
             {
-                System.IO.File.Move(path, newPath);
-            }
+                string newFilePath = newPath + '\\' + Path.GetFileName(path);
+                newFilesPath.Add(newFilePath);
 
-            node.linkedFile = newPath;
+                if (path.Length != 0)
+                {
+                    System.IO.File.Move(path, newFilePath);
+                }
+            }
+          
+            node.files = newFilesPath;
         }
     }
 }

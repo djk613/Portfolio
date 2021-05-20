@@ -14,24 +14,13 @@ namespace WorkManager
         public delegate void ChildAddFormSendDataHandler(LocalWorkNode node);
         public event ChildAddFormSendDataHandler ChildAddFormEvent;
 
+        private List<string> filesSelected { get; set; }
+
         public Add_Item_Local_Form()
         {
             InitializeComponent();
-        }
 
-        private void buttonFindFile_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fileDiag = new OpenFileDialog();
-            fileDiag.DefaultExt = "All";
-            fileDiag.Filter = "모든 파일 (*.*)|*.*";
-            fileDiag.Multiselect = false;
-
-            fileDiag.ShowDialog();
-
-            if(fileDiag.FileName.Length > 0)
-            {
-                textBoxFilePath.Text = fileDiag.FileName;
-            }
+            filesSelected = new List<string>();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -44,15 +33,13 @@ namespace WorkManager
 
             string subject = textBoxTitle.Text;
             string detail = textBoxContext.Text;
-            string linkedFile = textBoxFilePath.Text;
 
             string date = DateTime.Now.ToString("yyyy-MM-dd");
-            string[] day = date.Split('-');
 
             /*it is possible to make overload... I don't know how much resources will be used for gethashcode func*/
             ulong serialNum = (ulong)subject.GetHashCode() + (ulong)detail.GetHashCode();
 
-            LocalWorkNode node = new LocalWorkNode(serialNum, date, subject, detail, linkedFile);
+            LocalWorkNode node = new LocalWorkNode(serialNum, date, subject, detail, filesSelected);
 
             this.ChildAddFormEvent(node);
 
@@ -62,6 +49,47 @@ namespace WorkManager
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void button_files_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openfileDlg = new OpenFileDialog();
+
+            if (filesSelected != null)
+            {
+                filesSelected.Clear();
+            }
+
+            string OpenFilePath = System.Environment.CurrentDirectory;
+
+            openfileDlg.InitialDirectory = OpenFilePath;
+            openfileDlg.RestoreDirectory = true;
+            openfileDlg.Title = "파일 선택";
+            openfileDlg.DefaultExt = "*";
+            openfileDlg.FileName = "";
+            openfileDlg.Filter = "모든 파일 (*.*) | *.*";
+
+            openfileDlg.Multiselect = true;
+            openfileDlg.ReadOnlyChecked = true;
+            openfileDlg.ShowReadOnly = true;
+
+            DialogResult dr = openfileDlg.ShowDialog();
+
+            if (dr == DialogResult.OK)
+            {
+                foreach (String filepath in openfileDlg.FileNames)
+                {
+                    filesSelected.Add(filepath);
+                }
+
+                listView_fileList.Items.Clear();
+
+                foreach (string fileName in filesSelected)
+                {
+                    ListViewItem lvi;
+                    lvi = listView_fileList.Items.Add(Path.GetFileName(fileName));
+                }
+            }
         }
     }
 }

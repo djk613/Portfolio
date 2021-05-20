@@ -33,11 +33,12 @@ namespace WorkManager
             this.textBoxTitle = new System.Windows.Forms.TextBox();
             this.labelTitle = new System.Windows.Forms.Label();
             this.labelContext = new System.Windows.Forms.Label();
-            this.buttonFindFile = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textBoxFilePath = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.button_files = new System.Windows.Forms.Button();
+            this.listView_fileList = new System.Windows.Forms.ListView();
+            this.col_filName = new System.Windows.Forms.ColumnHeader();
             this.SuspendLayout();
             // 
             // textBoxContext
@@ -73,19 +74,9 @@ namespace WorkManager
             this.labelContext.TabIndex = 3;
             this.labelContext.Text = "내용";
             // 
-            // buttonFindFile
-            // 
-            this.buttonFindFile.Location = new System.Drawing.Point(386, 407);
-            this.buttonFindFile.Name = "buttonFindFile";
-            this.buttonFindFile.Size = new System.Drawing.Size(107, 23);
-            this.buttonFindFile.TabIndex = 5;
-            this.buttonFindFile.Text = "파일찾기";
-            this.buttonFindFile.UseVisualStyleBackColor = true;
-            this.buttonFindFile.Click += new System.EventHandler(this.buttonFindFile_Click);
-            // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(309, 437);
+            this.btnSave.Location = new System.Drawing.Point(308, 406);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(89, 30);
             this.btnSave.TabIndex = 6;
@@ -95,7 +86,7 @@ namespace WorkManager
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(404, 437);
+            this.btnCancel.Location = new System.Drawing.Point(403, 406);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(89, 30);
             this.btnCancel.TabIndex = 7;
@@ -103,38 +94,57 @@ namespace WorkManager
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // label3
+            // label1
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Buxton Sketch", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label3.Location = new System.Drawing.Point(12, 437);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(146, 29);
-            this.label3.TabIndex = 21;
-            this.label3.Text = "Work Manager";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(521, 61);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(55, 15);
+            this.label1.TabIndex = 34;
+            this.label1.Text = "파일목록";
             // 
-            // textBoxFilePath
+            // button_files
             // 
-            this.textBoxFilePath.Location = new System.Drawing.Point(12, 407);
-            this.textBoxFilePath.Name = "textBoxFilePath";
-            this.textBoxFilePath.Size = new System.Drawing.Size(366, 23);
-            this.textBoxFilePath.TabIndex = 4;
+            this.button_files.Location = new System.Drawing.Point(661, 406);
+            this.button_files.Name = "button_files";
+            this.button_files.Size = new System.Drawing.Size(89, 30);
+            this.button_files.TabIndex = 33;
+            this.button_files.Text = "파일등록";
+            this.button_files.UseVisualStyleBackColor = true;
+            this.button_files.Click += new System.EventHandler(this.button_files_Click);
             // 
-            // AddItem_Local_Form
+            // listView_fileList
+            // 
+            this.listView_fileList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.col_filName});
+            this.listView_fileList.HideSelection = false;
+            this.listView_fileList.Location = new System.Drawing.Point(521, 82);
+            this.listView_fileList.Name = "listView_fileList";
+            this.listView_fileList.Size = new System.Drawing.Size(229, 318);
+            this.listView_fileList.TabIndex = 35;
+            this.listView_fileList.UseCompatibleStateImageBehavior = false;
+            this.listView_fileList.View = System.Windows.Forms.View.Details;
+            // 
+            // col_filName
+            // 
+            this.col_filName.Text = "파일이름";
+            this.col_filName.Width = 300;
+            // 
+            // Add_Item_Local_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(505, 475);
-            this.Controls.Add(this.label3);
+            this.ClientSize = new System.Drawing.Size(762, 444);
+            this.Controls.Add(this.listView_fileList);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.button_files);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.buttonFindFile);
-            this.Controls.Add(this.textBoxFilePath);
             this.Controls.Add(this.labelContext);
             this.Controls.Add(this.labelTitle);
             this.Controls.Add(this.textBoxTitle);
             this.Controls.Add(this.textBoxContext);
-            this.Name = "AddItem_Local_Form";
+            this.Name = "Add_Item_Local_Form";
             this.Text = "작업내용저장";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -147,10 +157,11 @@ namespace WorkManager
         private System.Windows.Forms.TextBox textBoxTitle;
         private System.Windows.Forms.Label labelTitle;
         private System.Windows.Forms.Label labelContext;
-        private System.Windows.Forms.Button buttonFindFile;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBoxFilePath;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button_files;
+        private System.Windows.Forms.ListView listView_fileList;
+        private System.Windows.Forms.ColumnHeader col_filName;
     }
 }

@@ -29,7 +29,6 @@ namespace WorkManager
         /// </summary>
         private void InitializeComponent()
         {
-            this.label3 = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.labelContext = new System.Windows.Forms.Label();
@@ -41,16 +40,6 @@ namespace WorkManager
             this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_fileList)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Buxton Sketch", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label3.Location = new System.Drawing.Point(527, 18);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(192, 39);
-            this.label3.TabIndex = 30;
-            this.label3.Text = "Work Manager";
             // 
             // btnCancel
             // 
@@ -140,7 +129,6 @@ namespace WorkManager
             this.ClientSize = new System.Drawing.Size(731, 440);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridView_fileList);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.buttonFindFile);
@@ -158,8 +146,6 @@ namespace WorkManager
         }
 
         #endregion
-
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Label labelContext;
