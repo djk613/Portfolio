@@ -68,11 +68,17 @@ string BitCalculatorMachine::Calculation(string expr)
         return ch == '(' || ch == ')' || ch == ' ';
     }), expr.end());
 
+    /*Erase unnecessary 0 letters,
+    for example, if answer is 0011000, this makes it 11000*/
     for (size_t i = 0; i < expr.length(); i++)
     {
         if (expr.at(i) == '0' && expr.length() != 1)
         {
             expr.erase(0, 1);
+        }
+        else
+        {
+            break;
         }
     }
 

@@ -21,7 +21,7 @@ string HexaDecimal::ConvertToBinary()
 		result += GetBinaryByHex(number.at(i));
 	}
 
-	while (result.at(0) == '0') 
+	while (result.at(0) == '0' && result.at(1) == '0')
 	{
 		result.erase(0, 1);
 	}
