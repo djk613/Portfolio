@@ -22,6 +22,7 @@ public:
 	int CreateTextBox(HWND parentWnd);
 	int SetDefault(HWND parentWnd);
 	int SetParenthesis();
+	int SetParenthesisLine();
 	int SetUnary();
 	int SetNumber(WPARAM wParam);
 	int SetConvert(HWND parentWnd, WPARAM wParam);

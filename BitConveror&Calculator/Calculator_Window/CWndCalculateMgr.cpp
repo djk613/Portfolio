@@ -1,8 +1,8 @@
 #include "CWndCalculateMgr.h"
 
 unsigned int CWndCalculateMgr::m_IDC_button_ID[6][5] = {
-    {IDC_BUTTON_CLEAR,       IDC_BUTTON_CLEAR_ALL,     IDC_BUTTON_NUM_D, IDC_BUTTON_NUM_E, IDC_BUTTON_NUM_F},
-    {IDC_BUTTON_PAREN_LEFT,  IDC_BUTTON_PAREN_RIGHT, IDC_BUTTON_NUM_A, IDC_BUTTON_NUM_B, IDC_BUTTON_NUM_C},
+    {IDC_BUTTON_CLEAR,       IDC_BUTTON_CLEAR_ALL,   IDC_BUTTON_NUM_D, IDC_BUTTON_NUM_E, IDC_BUTTON_NUM_F},
+    {IDC_BUTTON_PAREN,       IDC_BUTTON_PAREN_LINE,  IDC_BUTTON_NUM_A, IDC_BUTTON_NUM_B, IDC_BUTTON_NUM_C},
     {IDC_BUTTON_UNARY,       IDC_BUTTON_PLUS,        IDC_BUTTON_NUM_7, IDC_BUTTON_NUM_8, IDC_BUTTON_NUM_9},
     {IDC_BUTTON_BINARY,      IDC_BUTTON_MINUS,       IDC_BUTTON_NUM_4, IDC_BUTTON_NUM_5, IDC_BUTTON_NUM_6},
     {IDC_BUTTON_DECIMAL,     IDC_BUTTON_MULTIPLE,    IDC_BUTTON_NUM_1, IDC_BUTTON_NUM_2, IDC_BUTTON_NUM_3},
@@ -11,7 +11,7 @@ unsigned int CWndCalculateMgr::m_IDC_button_ID[6][5] = {
 
 LPCWSTR CWndCalculateMgr::m_buttons[buttons_row][buttons_column] =
 {   { _T("C"),      _T("CE"),   _T("D"),    _T("E"),    _T("F") },
-    { _T("("),      _T(")"),    _T("A"),    _T("B"),    _T("C") },
+    { _T("(_)"),    _T("(___)"),_T("A"),    _T("B"),    _T("C") },
     { _T("(-)"),    _T("+"),    _T("7"),    _T("8"),    _T("9") },
     { _T("B"),      _T("-"),    _T("4"),    _T("5"),    _T("6") },
     { _T("D"),      _T("*"),    _T("1"),    _T("2"),    _T("3") },
@@ -147,6 +147,32 @@ int CWndCalculateMgr::SetParenthesis()
     return 0;
 }
 
+int CWndCalculateMgr::SetParenthesisLine()
+{
+    if (m_szTextBoxWorking.length() == 0)
+    {
+        return 0;
+    }
+
+    m_szTextBoxExpression += m_szTextBoxWorking;
+    m_szTextBoxWorking = "";
+
+    if (m_szTextBoxExpression[0] == '(' && m_szTextBoxExpression[m_szTextBoxExpression.length() - 1] == ')')
+    {
+        m_szTextBoxExpression.erase(m_szTextBoxExpression.length() - 1, 1);
+        m_szTextBoxExpression.erase(0, 1);
+    }
+    else
+    {
+        m_szTextBoxExpression = '(' + m_szTextBoxExpression + ')';
+    }
+
+
+    ModifyingText();
+
+    return 0;
+}
+
 int CWndCalculateMgr::SetUnary()
 {
     if (m_szTextBoxWorking.length() == 0)
@@ -176,7 +202,7 @@ int CWndCalculateMgr::SetUnary()
 int CWndCalculateMgr::SetNumber(WPARAM wParam)
 {
     /*adding operator must be next process*/
-    if (HasParenthesis(m_szTextBoxWorking))
+    if (HasParenthesis(m_szTextBoxWorking) || HasParenthesis(m_szTextBoxExpression))
     {
         return 0;
     }
@@ -253,7 +279,7 @@ int CWndCalculateMgr::SetOperator(HWND parentWnd, WPARAM wParam)
 {
     SetDecimalButtonControl(parentWnd);
 
-    if (m_szTextBoxWorking.length() == 0)
+    if (m_szTextBoxWorking.length() == 0 && HasParenthesis(m_szTextBoxExpression) == false)
     {
         return 0;
     }
@@ -327,8 +353,8 @@ int CWndCalculateMgr::Calculate()
 
 int CWndCalculateMgr::ModifyingText()
 {
-    string text = m_szTextBoxExpression + "\n\r";
-    text += m_szTextBoxWorking + "\n\r";
+    string text = m_szTextBoxExpression + "\r\n";
+    text += m_szTextBoxWorking + "\r\n";
     text += m_szTextBoxResult;
 
     SetWindowText(m_hWndTextBox, s2ws(text).c_str());
@@ -404,8 +430,7 @@ void CWndCalculateMgr::SetHexaButtonControl(HWND parentWnd)
 
 bool CWndCalculateMgr::HasParenthesis(string str)
 {
-    if (str[0] == '('
-        && str[str.length() - 1] == ')')
+    if (str[0] == '(' && str[str.length() - 1] == ')')
     {
         return true;
     }

@@ -136,8 +136,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
          case IDC_BUTTON_HEXADECIMAL:
              pWndCalculateMgr->SetConvert(hWnd, wParam);
              break;
-         case IDC_BUTTON_PAREN_LEFT:
+         case IDC_BUTTON_PAREN:
              pWndCalculateMgr->SetParenthesis();
+             break;
+         case IDC_BUTTON_PAREN_LINE:
+             pWndCalculateMgr->SetParenthesisLine();
              break;
          case IDC_BUTTON_UNARY:
              pWndCalculateMgr->SetUnary();
