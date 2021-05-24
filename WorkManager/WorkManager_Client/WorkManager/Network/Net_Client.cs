@@ -69,7 +69,7 @@ namespace TCP_SOCKET_NETWORK
             }
             catch (SocketException e)
             {
-                Console.WriteLine(e);
+                System.Windows.Forms.MessageBox.Show(e.Message);
             }
         }
 
@@ -101,13 +101,11 @@ namespace TCP_SOCKET_NETWORK
 
             if (rspMsg.Header.MSGTYPE != CONSTANTS.REP_FILE_SEND)
             {
-                Console.WriteLine("정상적인 서버 응답이 아닙니다.{0}", rspMsg.Header.MSGTYPE);
                 return false;
             }
 
             if (((BodyResponse)rspMsg.Body).RESPONSE == CONSTANTS.DENIED)
             {
-                Console.WriteLine("서버에서 파일 전송을 거부했습니다.");
                 return false;
             }
 
@@ -187,13 +185,11 @@ namespace TCP_SOCKET_NETWORK
 
             if (rspMsg.Header.MSGTYPE != CONSTANTS.REP_FILE_RECEIVE)
             {
-                Console.WriteLine("정상적인 서버 응답이 아닙니다.{0}", rspMsg.Header.MSGTYPE);
                 return false;
             }
 
             if (((BodyResponse)rspMsg.Body).RESPONSE == CONSTANTS.DENIED)
             {
-                Console.WriteLine("서버에서 파일 전송을 거부했습니다.");
                 return false;
             }
 
@@ -256,8 +252,7 @@ namespace TCP_SOCKET_NETWORK
 
                 // 메시지 순서가 어긋나면 전송 중단
                 if (prevSeq++ != reqMsg.Header.SEQ)
-                {
-                    Console.WriteLine("{0}, {1}", prevSeq, reqMsg.Header.SEQ);
+                { 
                     break;
                 }
 
@@ -279,9 +274,6 @@ namespace TCP_SOCKET_NETWORK
 
             ulong recvFileSize = (ulong)file.Length;
             file.Close();
-
-            Console.WriteLine();
-            Console.WriteLine("수신 파일 크기 : {0} bytes", recvFileSize);
 
             Message rstMsg = new Message();
             rstMsg.Body = new BodyResult()

@@ -83,7 +83,7 @@ namespace TCP_SOCKET_NETWORK
             }
             catch (SocketException e)
             {
-                Console.WriteLine(e);
+                System.Windows.Forms.MessageBox.Show(e.Message);
             }
             finally
             {
@@ -203,7 +203,6 @@ namespace TCP_SOCKET_NETWORK
                 // 메시지 순서가 어긋나면 전송 중단
                 if (prevSeq++ != reqMsg.Header.SEQ)
                 {
-                    Console.WriteLine("{0}, {1}", prevSeq, reqMsg.Header.SEQ);
                     break;
                 }
 
@@ -225,9 +224,6 @@ namespace TCP_SOCKET_NETWORK
 
             ulong recvFileSize = (ulong)file.Length;
             file.Close();
-
-            Console.WriteLine();
-            Console.WriteLine("수신 파일 크기 : {0} bytes", recvFileSize);
 
             Message rstMsg = new Message();
             rstMsg.Body = new BodyResult()
@@ -262,7 +258,6 @@ namespace TCP_SOCKET_NETWORK
                 // 파일 크기에 이상이 있다면 실패 메시지를 보냄
                 MessageUtil.Send(netStream, rstMsg);
             }
-            Console.WriteLine("파일 전송을 마쳤습니다.");
 
             netStream.Close();
             client.Close();
