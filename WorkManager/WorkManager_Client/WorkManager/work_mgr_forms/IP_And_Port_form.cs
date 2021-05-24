@@ -42,11 +42,11 @@ namespace WorkManager
             }
 
             Login login = new Login();
-            login.hasIPAndPortInfo = true;
-            Globals.DB_IP = textBox_DB_IP.Text;
-            Globals.DB_port = Convert.ToInt32(textBox_DB_port.Text);
-            Globals.file_IP = textBox_File_IP.Text;
-            Globals.file_port = Convert.ToInt32(textBox_File_port.Text);
+            login.m_bHas_IP_port_info = true;
+            Globals.m_strDB_IP = textBox_DB_IP.Text;
+            Globals.m_nDB_port = Convert.ToInt32(textBox_DB_port.Text);
+            Globals.m_strFile_IP = textBox_File_IP.Text;
+            Globals.m_nFile_port = Convert.ToInt32(textBox_File_port.Text);
 
             this.Visible = false;
             login.ShowDialog();

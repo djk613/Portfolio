@@ -13,9 +13,9 @@ namespace WorkManager
 {
     public partial class Add_Item_DB_Form : Form
     {
-        public string user_id { get; set; }
-        public DataGridView dataGridView_workList { get; set; }
-        private List<string> filesSelected { get; set; }
+        public string m_strUser_id { get; set; }
+        public DataGridView m_dataGridView_workList { get; set; }
+        private List<string> m_filesSelected { get; set; }
         public Add_Item_DB_Form()
         {
             InitializeComponent();
@@ -23,7 +23,7 @@ namespace WorkManager
 
         private void Additem_DB_Form_Load(object sender, EventArgs e)
         {
-            filesSelected = new List<string>();
+            m_filesSelected = new List<string>();
 
             dataGridView_fileList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView_fileList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -34,9 +34,9 @@ namespace WorkManager
         {
             OpenFileDialog openfileDlg = new OpenFileDialog();
 
-            if(filesSelected != null)
+            if(m_filesSelected != null)
             {
-                filesSelected.Clear();
+                m_filesSelected.Clear();
             }
 
             string OpenFilePath = System.Environment.CurrentDirectory;
@@ -61,7 +61,7 @@ namespace WorkManager
             {
                 foreach (String filepath in openfileDlg.FileNames)
                 {
-                    filesSelected.Add(filepath);
+                    m_filesSelected.Add(filepath);
                     table.Rows.Add(Path.GetFileName(filepath));
                 }
 
@@ -76,10 +76,10 @@ namespace WorkManager
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            DB_workMgr db_work = new DB_workMgr(dataGridView_workList, user_id);
+            DB_workMgr db_work = new DB_workMgr(m_dataGridView_workList, m_strUser_id);
             db_work.Connect();
 
-            db_work.InsertList(user_id, textBoxTitle.Text, textBoxContext.Text);
+            db_work.InsertList(m_strUser_id, textBoxTitle.Text, textBoxContext.Text);
 
             int work_no;
             work_no = db_work.GetLastWorkNo();
@@ -87,7 +87,7 @@ namespace WorkManager
 
             List<Tuple<int, string>> list = new List<Tuple<int, string>>();
 
-            foreach(var fileName in filesSelected)
+            foreach(var fileName in m_filesSelected)
             {
                 Tuple<int, string> data = new Tuple<int, string>(work_no, Path.GetFileName(fileName.ToString()));
                 list.Add(data);
@@ -102,7 +102,7 @@ namespace WorkManager
             /*network TCP socket process.*/
             Net_Client client = new Net_Client("127.0.0.1");
 
-            foreach (var fileName in filesSelected)
+            foreach (var fileName in m_filesSelected)
             {
                 client.Run(Protocol.CLIENT_REQ.SEND_FILE, fileName);
             }

@@ -22,11 +22,11 @@ namespace WorkManager
 
         private void Check_Item_Local_Form_Load(object sender, EventArgs e)
         {
-            this.textBoxTitle.Text = checkingNode.subject;
-            this.textBoxContext.Text = checkingNode.detailed;
+            this.textBoxTitle.Text = checkingNode.m_strSubject;
+            this.textBoxContext.Text = checkingNode.m_strDetailed;
         }
 
-        private void btnErase_Click(object sender, EventArgs e)
+        private void btnOK_Click(object sender, EventArgs e)
         {
             this.Close();
         }

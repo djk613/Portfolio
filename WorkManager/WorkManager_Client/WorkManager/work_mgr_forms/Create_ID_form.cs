@@ -20,9 +20,9 @@ namespace WorkManager
             DB_userMgr db_user = new DB_userMgr();
             db_user.Connect();
 
-            string password = HashForPassword.SHA256Hash(textBox_PW.Text);
+            string str_password = HashForPassword.SHA256Hash(textBox_PW.Text);
 
-            bool b_create_ID_success = db_user.CreateID(textBox_ID.Text, password);
+            bool b_create_ID_success = db_user.CreateID(textBox_ID.Text, str_password);
             db_user.Disconnect();
 
             if (b_create_ID_success)

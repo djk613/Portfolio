@@ -12,7 +12,7 @@ namespace WorkManager
         protected DB_mgr()
         {
 
-            string myConnection = string.Format("Server='{0}';Port={1};Database=work_mgr;Uid=root;Pwd=1234", Globals.DB_IP, Globals.DB_port);
+            string myConnection = string.Format("Server='{0}';Port={1};Database=work_mgr;Uid=root;Pwd=1234", Globals.m_strDB_IP, Globals.m_nDB_port);
             connect = new MySqlConnection(myConnection);    
         }
 

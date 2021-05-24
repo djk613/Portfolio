@@ -10,41 +10,41 @@ namespace TCP_SOCKET_NETWORK
 {
     class Net_Client
     {
-        private string serverIP;
-        private int serverPort;
-        private string filePath;
-        private IPEndPoint clientAddress;
-        private IPEndPoint serverAddress;
-        private NetworkStream netStream;
-        private static uint msgId;
-        static private string dir = "C:\\download";
+        private string m_strServer_IP;
+        private int  m_nServer_port;
+        private string m_strFile_path;
+        private IPEndPoint m_client_address;
+        private IPEndPoint m_server_address;
+        private NetworkStream m_net_stream;
+        private static uint m_nMsgId;
+        static private string m_str_dir = "C:\\download";
 
         public Net_Client(string _serverIP, int _serverPort = 10387)
         {
-            serverIP = _serverIP;
-            serverPort = _serverPort;
-            clientAddress = new IPEndPoint(0, 0);
-            serverAddress = new IPEndPoint(IPAddress.Parse(serverIP), serverPort);
-            msgId = 0;
+            m_strServer_IP = _serverIP;
+            m_nServer_port = _serverPort;
+            m_client_address = new IPEndPoint(0, 0);
+            m_server_address = new IPEndPoint(IPAddress.Parse(m_strServer_IP), m_nServer_port);
+            m_nMsgId = 0;
         }
 
         public void Run(Protocol.CLIENT_REQ req, string _filePath)
         {
-            filePath = new string(_filePath);
+            m_strFile_path = new string(_filePath);
 
             try
             {
                 /*connect to server*/
-                TcpClient client = new TcpClient(clientAddress);
-                client.Connect(serverAddress);
+                TcpClient client = new TcpClient(m_client_address);
+                client.Connect(m_server_address);
 
-                netStream = client.GetStream();
+                m_net_stream = client.GetStream();
 
                 if (req == Protocol.CLIENT_REQ.SEND_FILE)
                 {
                     RequestFileSend();
 
-                    if (CheckServerResponse_send(netStream) == false)
+                    if (CheckServerResponse_send(m_net_stream) == false)
                     {
                         return;
                     }
@@ -56,7 +56,7 @@ namespace TCP_SOCKET_NETWORK
                 {
                     RequestFileReceive();
 
-                    if (CheckServerResponse_receive(netStream) == false)
+                    if (CheckServerResponse_receive(m_net_stream) == false)
                     {
                         return;
                     }
@@ -64,7 +64,7 @@ namespace TCP_SOCKET_NETWORK
                     ReceiveFile();
                 }
 
-                netStream.Close();
+                m_net_stream.Close();
                 client.Close();
             }
             catch (SocketException e)
@@ -78,12 +78,12 @@ namespace TCP_SOCKET_NETWORK
             Message reqMsg = new Message();
             reqMsg.Body = new BodyRequest()
             {
-                FILESIZE = (ulong)new FileInfo(filePath).Length,
-                FILENAME = Encoding.Default.GetBytes(Path.GetFileName(filePath))
+                m_nFile_size = (ulong)new FileInfo(m_strFile_path).Length,
+                m_file_name = Encoding.Default.GetBytes(Path.GetFileName(m_strFile_path))
             };
             reqMsg.Header = new Header()
             {
-                MSGID = msgId++,
+                MSGID = m_nMsgId++,
                 MSGTYPE = CONSTANTS.REQ_FILE_SEND,
                 BODYLEN = (uint)reqMsg.Body.GetSize(),
                 FRAGMENTED = CONSTANTS.NOT_FRAGMENTED,
@@ -92,7 +92,7 @@ namespace TCP_SOCKET_NETWORK
             };
 
             // 클라이언트는 서버에 접속하자마자 파일 전송 요청 메시지를 보냄
-            MessageUtil.Send(netStream, reqMsg);
+            MessageUtil.Send(m_net_stream, reqMsg);
         }
 
         private bool CheckServerResponse_send(NetworkStream netStream)
@@ -104,7 +104,7 @@ namespace TCP_SOCKET_NETWORK
                 return false;
             }
 
-            if (((BodyResponse)rspMsg.Body).RESPONSE == CONSTANTS.DENIED)
+            if (((BodyResponse)rspMsg.Body).m_reponse == CONSTANTS.DENIED)
             {
                 return false;
             }
@@ -114,42 +114,40 @@ namespace TCP_SOCKET_NETWORK
 
         private void SendFile()
         {
-            using (Stream fileStream = new FileStream(filePath, FileMode.Open))
+            using (Stream fileStream = new FileStream(m_strFile_path, FileMode.Open))
             {
                 byte[] rbytes = new byte[Protocol.CONSTANTS.SIZE_CHUNK];
 
-                long readValue = BitConverter.ToInt64(rbytes, 0);
-
-                int totalRead = 0;
-                ushort msgSeq = 0;
+                int n_tota_read = 0;
+                ushort n_msg_seq = 0;
                 byte fragmented = (fileStream.Length < Protocol.CONSTANTS.SIZE_CHUNK) ? CONSTANTS.NOT_FRAGMENTED : CONSTANTS.FRAGMENTED;
                
-                while (totalRead < fileStream.Length)
+                while (n_tota_read < fileStream.Length)
                 {
-                    int read = fileStream.Read(rbytes, 0, Protocol.CONSTANTS.SIZE_CHUNK);
-                    totalRead += read;
+                    int n_read = fileStream.Read(rbytes, 0, Protocol.CONSTANTS.SIZE_CHUNK);
+                    n_tota_read += n_read;
                     Message fileMsg = new Message();
 
-                    byte[] sendBytes = new byte[read];
-                    Array.Copy(rbytes, 0, sendBytes, 0, read);
+                    byte[] sendBytes = new byte[n_read];
+                    Array.Copy(rbytes, 0, sendBytes, 0, n_read);
 
                     fileMsg.Body = new BodyData(sendBytes);
                     fileMsg.Header = new Header()
                     {
-                        MSGID = msgId,
+                        MSGID = m_nMsgId,
                         MSGTYPE = CONSTANTS.FILE_SEND_DATA,
                         BODYLEN = (uint)fileMsg.Body.GetSize(),
                         FRAGMENTED = fragmented,
-                        LASTMSG = (totalRead < fileStream.Length) ? CONSTANTS.NOT_LASTMSG : CONSTANTS.LASTMSG,
-                        SEQ = msgSeq++
+                        LASTMSG = (n_tota_read < fileStream.Length) ? CONSTANTS.NOT_LASTMSG : CONSTANTS.LASTMSG,
+                        SEQ = n_msg_seq++
                     };
 
                     // 모든 파일의 내용이 전송될 때까지 파일 스트림을 0x03 메시지에 담아 서버로 보냄
-                    MessageUtil.Send(netStream, fileMsg);
+                    MessageUtil.Send(m_net_stream, fileMsg);
                 }
 
                 // 서버에서 파일을 제대로 받았는지에 대한 응답을 받음
-                Message rstMsg = MessageUtil.Receive(netStream);
+                Message rstMsg = MessageUtil.Receive(m_net_stream);
 
                 BodyResult result = rstMsg.Body as BodyResult;
             }
@@ -161,13 +159,13 @@ namespace TCP_SOCKET_NETWORK
             reqMsg.Body = new BodyRequest()
             {
                 /*not know the size of the file, yet file path is needed*/
-                FILESIZE = 1,
-                FILENAME = Encoding.Default.GetBytes(filePath)
+                m_nFile_size = 1,
+                m_file_name = Encoding.Default.GetBytes(m_strFile_path)
             };
 
             reqMsg.Header = new Header()
             {
-                MSGID = msgId++,
+                MSGID = m_nMsgId++,
                 MSGTYPE = CONSTANTS.REQ_FILE_RECEIVE,
                 BODYLEN = (uint)reqMsg.Body.GetSize(),
                 FRAGMENTED = CONSTANTS.NOT_FRAGMENTED,
@@ -176,7 +174,7 @@ namespace TCP_SOCKET_NETWORK
             };
 
             /*the first step of TCP, client send massage to server for request*/
-            MessageUtil.Send(netStream, reqMsg);
+            MessageUtil.Send(m_net_stream, reqMsg);
         }
 
         private bool CheckServerResponse_receive(NetworkStream netStream)
@@ -188,7 +186,7 @@ namespace TCP_SOCKET_NETWORK
                 return false;
             }
 
-            if (((BodyResponse)rspMsg.Body).RESPONSE == CONSTANTS.DENIED)
+            if (((BodyResponse)rspMsg.Body).m_reponse == CONSTANTS.DENIED)
             {
                 return false;
             }
@@ -198,29 +196,29 @@ namespace TCP_SOCKET_NETWORK
 
         private void ReceiveFile()
         {
-            Message reqMsg = MessageUtil.Receive(netStream);
+            Message reqMsg = MessageUtil.Receive(m_net_stream);
 
             BodyRequest reqBody = reqMsg.Body as BodyRequest;
 
-            ulong fileSize = reqBody.FILESIZE;
-            string fileName = Encoding.Default.GetString(reqBody.FILENAME);
-            fileName = fileName.Replace("\0", string.Empty);
-            fileName = Path.GetFileName(fileName);
+            ulong n_file_size = reqBody.m_nFile_size;
+            string str_file_name = Encoding.Default.GetString(reqBody.m_file_name);
+            str_file_name = str_file_name.Replace("\0", string.Empty);
+            str_file_name = Path.GetFileName(str_file_name);
 
             // 파일 스트림 생성
-            FileStream file = new FileStream(dir + "\\" + fileName, FileMode.Create);
+            FileStream file = new FileStream(m_str_dir + "\\" + str_file_name, FileMode.Create);
 
             /*준비끝 메세지 서버로 출력... 이건 TCP를 위해서 추가함*/
             Message readyMsg = new Message();
             readyMsg.Body = new BodyResponse()
             {
-                MSGID = reqMsg.Header.MSGID,
-                RESPONSE = CONSTANTS.ACCEPTED
+                m_nMsgid = reqMsg.Header.MSGID,
+                m_reponse = CONSTANTS.ACCEPTED
             };
 
             readyMsg.Header = new Header()
             {
-                MSGID = msgId++,
+                MSGID = m_nMsgId++,
                 MSGTYPE = CONSTANTS.REP_FILE_RECEIVE,
                 BODYLEN = (uint)readyMsg.Body.GetSize(),
                 FRAGMENTED = CONSTANTS.NOT_FRAGMENTED,
@@ -228,22 +226,22 @@ namespace TCP_SOCKET_NETWORK
                 SEQ = 0
             };
 
-            MessageUtil.Send(netStream, readyMsg);
+            MessageUtil.Send(m_net_stream, readyMsg);
 
-            uint? dataMsgId = null;
-            ushort prevSeq = 0;
-            while ((reqMsg = MessageUtil.Receive(netStream)) != null)
+            uint? n_data_msgId = null;
+            ushort n_prev_seq = 0;
+            while ((reqMsg = MessageUtil.Receive(m_net_stream)) != null)
             {
                 if (reqMsg.Header.MSGTYPE != CONSTANTS.FILE_RECEIVE_DATA)
                     break;
 
-                if (dataMsgId == null)
+                if (n_data_msgId == null)
                 {
-                    dataMsgId = reqMsg.Header.MSGID;
+                    n_data_msgId = reqMsg.Header.MSGID;
                 }
                 else
                 {
-                    if (dataMsgId != reqMsg.Header.MSGID)
+                    if (n_data_msgId != reqMsg.Header.MSGID)
                     {
                         break;
                     }
@@ -251,7 +249,7 @@ namespace TCP_SOCKET_NETWORK
                 }
 
                 // 메시지 순서가 어긋나면 전송 중단
-                if (prevSeq++ != reqMsg.Header.SEQ)
+                if (n_prev_seq++ != reqMsg.Header.SEQ)
                 { 
                     break;
                 }
@@ -272,18 +270,18 @@ namespace TCP_SOCKET_NETWORK
 
             }
 
-            ulong recvFileSize = (ulong)file.Length;
+            ulong n_recv_file_size = (ulong)file.Length;
             file.Close();
 
             Message rstMsg = new Message();
             rstMsg.Body = new BodyResult()
             {
-                MSGID = reqMsg.Header.MSGID,
-                RESULT = CONSTANTS.SUCCESS
+                m_nMsgid = reqMsg.Header.MSGID,
+                m_result = CONSTANTS.SUCCESS
             };
             rstMsg.Header = new Header()
             {
-                MSGID = msgId++,
+                MSGID = m_nMsgId++,
                 MSGTYPE = CONSTANTS.FILE_SEND_RES,
                 BODYLEN = (uint)rstMsg.Body.GetSize(),
                 FRAGMENTED = CONSTANTS.NOT_FRAGMENTED,
@@ -291,22 +289,22 @@ namespace TCP_SOCKET_NETWORK
                 SEQ = 0
             };
 
-            if (fileSize == recvFileSize)
+            if (n_file_size == n_recv_file_size)
             {
                 // 파일 전송 요청에 담겨온 파일 크기와 실제로 받은 파일 크기를 비교
                 // 같으면 성공 메지시를 보냄
-                MessageUtil.Send(netStream, rstMsg);
+                MessageUtil.Send(m_net_stream, rstMsg);
             }
             else
             {
                 rstMsg.Body = new BodyResult()
                 {
-                    MSGID = reqMsg.Header.MSGID,
-                    RESULT = CONSTANTS.FAIL
+                    m_nMsgid = reqMsg.Header.MSGID,
+                    m_result = CONSTANTS.FAIL
                 };
 
                 // 파일 크기에 이상이 있다면 실패 메시지를 보냄
-                MessageUtil.Send(netStream, rstMsg);
+                MessageUtil.Send(m_net_stream, rstMsg);
             }
         }
     }

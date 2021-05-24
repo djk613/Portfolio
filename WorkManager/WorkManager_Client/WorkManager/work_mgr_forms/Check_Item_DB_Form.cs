@@ -10,8 +10,8 @@ namespace WorkManager
 {
     public partial class Check_Item_DB_Form : Form
     {
-        public string title { get; set; }
-        public string details { get; set; }
+        public string m_strTitle { get; set; }
+        public string m_strDetails { get; set; }
 
         public Check_Item_DB_Form()
         {
@@ -20,8 +20,13 @@ namespace WorkManager
 
         private void Check_Item_DB_Form_Load(object sender, EventArgs e)
         {
-            textBoxTitle.Text = title;
-            textBoxDetails.Text = details;
+            textBoxTitle.Text = m_strTitle;
+            textBoxDetails.Text = m_strDetails;
+        }
+
+        private void btnErase_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

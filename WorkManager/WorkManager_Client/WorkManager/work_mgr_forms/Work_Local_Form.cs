@@ -14,14 +14,14 @@ namespace WorkManager
 {
     public partial class Work_Local_Form : Form
     {
-        private Local_WorkMgr mgr;
+        private Local_WorkMgr m_local_mgr;
 
         public Work_Local_Form()
         {
             InitializeComponent();
 
             /*instancing manager class*/
-            this.mgr = new Local_WorkMgr();
+            this.m_local_mgr = new Local_WorkMgr();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -51,9 +51,9 @@ namespace WorkManager
 
         public void AddEventMethod(LocalWorkNode node)
         {
-            List<LocalWorkNode> workList = mgr.GetWorkNodeList();
+            List<LocalWorkNode> workList = m_local_mgr.GetWorkNodeList();
 
-            mgr.AddNodeToList(node);
+            m_local_mgr.AddNodeToList(node);
 
             RefreshViewList();
         }
@@ -63,7 +63,7 @@ namespace WorkManager
             listViewMain.Items.Clear();
             SetListViewData();
             SetComboBox();
-            mgr.WriteRecord();
+            m_local_mgr.WriteRecord();
         }
 
         private void btnCheck_Click(object sender, EventArgs e)
@@ -73,75 +73,75 @@ namespace WorkManager
 
         private void SetListViewData()
         {
-            List<LocalWorkNode> workList = mgr.GetWorkNodeList();
+            List<LocalWorkNode> workList = m_local_mgr.GetWorkNodeList();
 
             foreach (LocalWorkNode node in workList)
             {
                 ListViewItem lvi;
-                lvi = listViewMain.Items.Add(node.date);
+                lvi = listViewMain.Items.Add(node.m_strDate);
                 lvi.SubItems.Add(node.GetDayOfWeek());
-                lvi.SubItems.Add(node.subject);
-                lvi.SubItems.Add(node.serialNum.ToString());
+                lvi.SubItems.Add(node.m_strSubject);
+                lvi.SubItems.Add(node.m_nSerialNum.ToString());
             }
         }
 
         private void SetLivstViewDataWithFilter()
         {
-            string year;
-            string month; 
-            string day;
+            string str_year;
+            string str_month; 
+            string str_day;
 
             if(comboYear.SelectedItem != null)
             {
-                year = comboYear.SelectedItem.ToString();
+                str_year = comboYear.SelectedItem.ToString();
             }
             else
             {
-                year = new string("");
+                str_year = new string("");
             }
 
             if (comboMonth.SelectedItem != null)
             {
-                month = comboMonth.SelectedItem.ToString();
+                str_month = comboMonth.SelectedItem.ToString();
             }
             else
             {
-                month = new string("");
+                str_month = new string("");
             }
 
             if (comboDay.SelectedItem != null)
             {
-                day = comboDay.SelectedItem.ToString();
+                str_day = comboDay.SelectedItem.ToString();
             }
             else
             {
-                day = new string("");
+                str_day = new string("");
             }
 
-            List<LocalWorkNode> workList = mgr.GetWorkNodeList();
+            List<LocalWorkNode> workList = m_local_mgr.GetWorkNodeList();
             listViewMain.Items.Clear();
 
             foreach (LocalWorkNode node in workList)
             {
                 DateTime dt;
-                dt = DateTime.ParseExact(node.date, "yyyy-MM-dd", null);
+                dt = DateTime.ParseExact(node.m_strDate, "yyyy-MM-dd", null);
 
-                if((year == dt.Year.ToString() || String.IsNullOrEmpty(year) == true) 
-                    && (month == dt.Month.ToString() || String.IsNullOrEmpty(month) == true)
-                    && (day == dt.Day.ToString() || String.IsNullOrEmpty(day)))
+                if((str_year == dt.Year.ToString() || String.IsNullOrEmpty(str_year) == true) 
+                    && (str_month == dt.Month.ToString() || String.IsNullOrEmpty(str_month) == true)
+                    && (str_day == dt.Day.ToString() || String.IsNullOrEmpty(str_day)))
                 {
                     ListViewItem lvi;
-                    lvi = listViewMain.Items.Add(node.date);
+                    lvi = listViewMain.Items.Add(node.m_strDate);
                     lvi.SubItems.Add(node.GetDayOfWeek());
-                    lvi.SubItems.Add(node.subject);
-                    lvi.SubItems.Add(node.serialNum.ToString());
+                    lvi.SubItems.Add(node.m_strSubject);
+                    lvi.SubItems.Add(node.m_nSerialNum.ToString());
                 }
             }
         }
 
         private void SetComboBox()
         {
-            List<LocalWorkNode> list = mgr.GetWorkNodeList();
+            List<LocalWorkNode> list = m_local_mgr.GetWorkNodeList();
 
             List<string> year = new List<string>();
             List<string> month = new List<string>();
@@ -150,7 +150,7 @@ namespace WorkManager
             foreach (LocalWorkNode node in list)
             {
                 DateTime dt;
-                dt = DateTime.ParseExact(node.date, "yyyy-MM-dd", null);
+                dt = DateTime.ParseExact(node.m_strDate, "yyyy-MM-dd", null);
 
                 year.Add(dt.Year.ToString());
                 month.Add(dt.Month.ToString());
@@ -189,7 +189,7 @@ namespace WorkManager
             {
                 selectedIndex = listViewMain.Items.IndexOf(listViewMain.SelectedItems[0]);
             
-                List<LocalWorkNode> workList = mgr.GetWorkNodeList();
+                List<LocalWorkNode> workList = m_local_mgr.GetWorkNodeList();
                 LocalWorkNode node = workList[selectedIndex];
 
                 Check_Item_Local_Form check_local_form = new Check_Item_Local_Form();
@@ -207,10 +207,10 @@ namespace WorkManager
             {
                 selectedIndex = listViewMain.Items.IndexOf(listViewMain.SelectedItems[0]);
 
-                List<LocalWorkNode> workList = mgr.GetWorkNodeList();
+                List<LocalWorkNode> workList = m_local_mgr.GetWorkNodeList();
                 LocalWorkNode node = workList[selectedIndex];
 
-                mgr.DeleteNodeInList(node);
+                m_local_mgr.DeleteNodeInList(node);
 
                 RefreshViewList();
             }
@@ -224,10 +224,10 @@ namespace WorkManager
 
                 int selectedIdx = listViewMain.SelectedItems[0].Index;
 
-                List<LocalWorkNode> fileList = mgr.GetWorkNodeList();
+                List<LocalWorkNode> fileList = m_local_mgr.GetWorkNodeList();
                 LocalWorkNode node = fileList[selectedIdx];
 
-                foreach (string fileName in node.files)
+                foreach (string fileName in node.m_files)
                 {
                     ListViewItem lvi;
                     lvi = listView_files.Items.Add(Path.GetFileName(fileName));

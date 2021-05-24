@@ -11,9 +11,9 @@ namespace WorkManager
 {
     public partial class Login : Form
     {
-        public bool hasIPAndPortInfo { get; set; }
+        public bool m_bHas_IP_port_info { get; set; }
 
-        private string login_mode { get; set; }
+        private string m_strLogin_mode { get; set; }
 
         public Login()
         {
@@ -22,7 +22,7 @@ namespace WorkManager
 
         private void button_login_Click(object sender, EventArgs e)
         {
-            if(login_mode == "LOCAL")
+            if(m_strLogin_mode == "LOCAL")
             {
                 /*if using simple local mode without connecting to server
                  this application will not use TCP network socket functions,
@@ -41,9 +41,9 @@ namespace WorkManager
                 DB_userMgr db_user = new DB_userMgr();
                 db_user.Connect();
 
-                string password = HashForPassword.SHA256Hash(textBox_PW.Text);
+                string str_password = HashForPassword.SHA256Hash(textBox_PW.Text);
 
-                bool b_login_success = db_user.LoginID(textBox_ID.Text, password);
+                bool b_login_success = db_user.LoginID(textBox_ID.Text, str_password);
                 db_user.Disconnect();
 
                 if (b_login_success)
@@ -53,7 +53,7 @@ namespace WorkManager
                     this.Visible = false;
 
                     Work_DB_Form work_db = new Work_DB_Form();
-                    work_db.user_id = textBox_ID.Text;
+                    work_db.str_user_id = textBox_ID.Text;
 
                     work_db.ShowDialog();
 
@@ -99,14 +99,14 @@ namespace WorkManager
 
         private void comboBox_mode_SelectedIndexChanged(object sender, EventArgs e)
         {
-            login_mode = (string)comboBox_mode.SelectedItem;
+            m_strLogin_mode = (string)comboBox_mode.SelectedItem;
 
-            if(login_mode == "DB")
+            if(m_strLogin_mode == "DB")
             {
                 textBox_ID.Enabled = true;
                 textBox_PW.Enabled = true;
             }
-            else if(login_mode == "LOCAL")
+            else if(m_strLogin_mode == "LOCAL")
             {
                 textBox_ID.Enabled = false;
                 textBox_PW.Enabled = false;

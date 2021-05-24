@@ -44,7 +44,7 @@ namespace WorkManager
             this.btnErase.TabIndex = 15;
             this.btnErase.Text = "확인";
             this.btnErase.UseVisualStyleBackColor = true;
-            this.btnErase.Click += new System.EventHandler(this.btnErase_Click);
+            this.btnErase.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // labelContext
             // 

@@ -9,33 +9,33 @@ namespace WorkManager
     public class Local_WorkMgr
     {
         private List<LocalWorkNode> workNodeList;
-        public string rootPath { private get; set; }
-        private string[] today;
+        public string m_root_path { private get; set; }
+        private string[] m_today;
 
         public Local_WorkMgr()
         {
             workNodeList = new List<LocalWorkNode>();
 
-            string date = DateTime.Now.ToString("yyyy-MM-dd");
-            today = date.Split('-');
+            string str_date = DateTime.Now.ToString("yyyy-MM-dd");
+            m_today = str_date.Split('-');
 
             /*temporary path.. it will be controlled by user*/
             //rootPath = @"C:\Users\user\Desktop\WorkManager";
-            rootPath = @"..\";
+            m_root_path = @"..\";
 
-            DirectoryInfo di = new DirectoryInfo(rootPath);
+            DirectoryInfo di = new DirectoryInfo(m_root_path);
 
             if(di.Exists == false)
             {
                 di.Create();
             }
 
-            string fileName = new string("record.txt");
-            string fileFullName = new string(rootPath + '\\' + fileName);
+            string str_file_name = new string("record.txt");
+            string str_file_full_name = new string(m_root_path + '\\' + str_file_name);
 
-            if (File.Exists(fileFullName) == false)
+            if (File.Exists(str_file_full_name) == false)
             {
-                File.Create(fileFullName).Close();
+                File.Create(str_file_full_name).Close();
             }
 
             ReadRecord();
@@ -43,9 +43,9 @@ namespace WorkManager
 
         public void ReadRecord()
         {
-            string[] recordInText = File.ReadAllLines(GetTempPath());
+            string[] str_record_in_text_array = File.ReadAllLines(GetTempPath());
 
-            foreach (string record in recordInText)
+            foreach (string record in str_record_in_text_array)
             {
                 string[] data = record.Split('|');
 
@@ -55,7 +55,7 @@ namespace WorkManager
                     continue;
                 }
 
-                List<string> list_filesPath =  data[4].Split(',').ToList();
+                List<string> list_filesPath = data[4].Split(',').ToList();
 
                 LocalWorkNode node = new LocalWorkNode(ulong.Parse(data[0]), data[1], data[2], data[3], list_filesPath);
 
@@ -101,22 +101,22 @@ namespace WorkManager
 
         public string GetPathRoot()
         {
-            return rootPath;
+            return m_root_path;
         }
 
         public string GetPathYear()
         {
-            return GetPathRoot() + '\\' + today[0];
+            return GetPathRoot() + '\\' + m_today[0];
         }
 
         public string GetPathMonth()
         {
-            return GetPathYear() + '\\' + today[1];
+            return GetPathYear() + '\\' + m_today[1];
         }
 
         public string GetPathDay()
         {
-            return GetPathMonth() + '\\' + today[2];
+            return GetPathMonth() + '\\' + m_today[2];
         }
 
         public string GetTempPath()
@@ -126,36 +126,36 @@ namespace WorkManager
 
         private void RecordFiles(ref LocalWorkNode node)
         {
-            string[] day = node.date.Split('-');
+            string[] str_day = node.m_strDate.Split('-');
 
             /*file move*/
-            string newPath = new string(@"..\");
-            newPath = newPath + day[0];
-            newPath = newPath + '\\' + day[1];
-            newPath = newPath + '\\' + day[2];
+            string str_new_path = new string(@"..\");
+            str_new_path = str_new_path + str_day[0];
+            str_new_path = str_new_path + '\\' + str_day[1];
+            str_new_path = str_new_path + '\\' + str_day[2];
 
-            DirectoryInfo di = new DirectoryInfo(newPath);
+            DirectoryInfo di = new DirectoryInfo(str_new_path);
 
             if (di.Exists == false)
             {
                 di.Create();
             }
 
-            List<string> filesPath = node.files;
-            List<string> newFilesPath = new List<string>();
+            List<string> files_path_list = node.m_files;
+            List<string> new_files_path_list = new List<string>();
 
-            foreach (var path in filesPath)
+            foreach (var path in files_path_list)
             {
-                string newFilePath = newPath + '\\' + Path.GetFileName(path);
-                newFilesPath.Add(newFilePath);
+                string str_new_file_path = str_new_path + '\\' + Path.GetFileName(path);
+                new_files_path_list.Add(str_new_file_path);
 
                 if (path.Length != 0)
                 {
-                    System.IO.File.Move(path, newFilePath);
+                    System.IO.File.Move(path, str_new_file_path);
                 }
             }
           
-            node.files = newFilesPath;
+            node.m_files = new_files_path_list;
         }
     }
 }

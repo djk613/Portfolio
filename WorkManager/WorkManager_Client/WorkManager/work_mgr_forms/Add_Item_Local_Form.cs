@@ -14,13 +14,13 @@ namespace WorkManager
         public delegate void ChildAddFormSendDataHandler(LocalWorkNode node);
         public event ChildAddFormSendDataHandler ChildAddFormEvent;
 
-        private List<string> filesSelected { get; set; }
+        private List<string> m_filesSelected { get; set; }
 
         public Add_Item_Local_Form()
         {
             InitializeComponent();
 
-            filesSelected = new List<string>();
+            m_filesSelected = new List<string>();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -31,15 +31,15 @@ namespace WorkManager
                 return;
             }
 
-            string subject = textBoxTitle.Text;
-            string detail = textBoxContext.Text;
+            string str_subject = textBoxTitle.Text;
+            string str_detail = textBoxContext.Text;
 
             string date = DateTime.Now.ToString("yyyy-MM-dd");
 
             /*it is possible to make overload... I don't know how much resources will be used for gethashcode func*/
-            ulong serialNum = (ulong)subject.GetHashCode() + (ulong)detail.GetHashCode();
+            ulong serialNum = (ulong)str_subject.GetHashCode() + (ulong)str_detail.GetHashCode();
 
-            LocalWorkNode node = new LocalWorkNode(serialNum, date, subject, detail, filesSelected);
+            LocalWorkNode node = new LocalWorkNode(serialNum, date, str_subject, str_detail, m_filesSelected);
 
             this.ChildAddFormEvent(node);
 
@@ -55,14 +55,14 @@ namespace WorkManager
         {
             OpenFileDialog openfileDlg = new OpenFileDialog();
 
-            if (filesSelected != null)
+            if (m_filesSelected != null)
             {
-                filesSelected.Clear();
+                m_filesSelected.Clear();
             }
 
-            string OpenFilePath = System.Environment.CurrentDirectory;
+            string str_openFilePath = System.Environment.CurrentDirectory;
 
-            openfileDlg.InitialDirectory = OpenFilePath;
+            openfileDlg.InitialDirectory = str_openFilePath;
             openfileDlg.RestoreDirectory = true;
             openfileDlg.Title = "파일 선택";
             openfileDlg.DefaultExt = "*";
@@ -79,12 +79,12 @@ namespace WorkManager
             {
                 foreach (String filepath in openfileDlg.FileNames)
                 {
-                    filesSelected.Add(filepath);
+                    m_filesSelected.Add(filepath);
                 }
 
                 listView_fileList.Items.Clear();
 
-                foreach (string fileName in filesSelected)
+                foreach (string fileName in m_filesSelected)
                 {
                     ListViewItem lvi;
                     lvi = listView_fileList.Items.Add(Path.GetFileName(fileName));

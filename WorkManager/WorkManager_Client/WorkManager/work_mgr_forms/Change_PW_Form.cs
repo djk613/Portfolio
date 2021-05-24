@@ -20,10 +20,9 @@ namespace WorkManager
             DB_userMgr db_user = new DB_userMgr();
             db_user.Connect();
 
-            bool b_pw_change_success = 
-                db_user.ChangePassword(textBox_ID.Text, 
-                textBox_PW.Text.GetHashCode(), 
-                textBox_changed_PW.Text.GetHashCode());
+            bool b_pw_change_success = db_user.ChangePassword(textBox_ID.Text,
+                HashForPassword.SHA256Hash(textBox_PW.Text),
+                HashForPassword.SHA256Hash(textBox_changed_PW.Text));
 
             db_user.Disconnect();
 

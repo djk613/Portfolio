@@ -16,44 +16,44 @@ namespace Protocol
 
         public static Message Receive(Stream reader)
         {
-            int totalRecv = 0;
-            int sizeToRead = 16;
-            byte[] hBuffer = new byte[sizeToRead];
+            int n_total_recv = 0;
+            int n_size_to_read = 16;
+            byte[] hBuffer = new byte[n_size_to_read];
 
-            while (sizeToRead > 0)
+            while (n_size_to_read > 0)
             {
-                byte[] buffer = new byte[sizeToRead];
-                int recv = reader.Read(buffer, 0, sizeToRead);
+                byte[] buffer = new byte[n_size_to_read];
+                int n_recv = reader.Read(buffer, 0, n_size_to_read);
 
-                if (recv == 0)
+                if (n_recv == 0)
                 {
                     return null;
                 }
 
-                buffer.CopyTo(hBuffer, totalRecv);
-                totalRecv += recv;
-                sizeToRead -= recv;
+                buffer.CopyTo(hBuffer, n_total_recv);
+                n_total_recv += n_recv;
+                n_size_to_read -= n_recv;
             }
 
             Header header = new Header(hBuffer);
 
-            totalRecv = 0;
+            n_total_recv = 0;
             byte[] bBuffer = new byte[header.BODYLEN];
-            sizeToRead = (int)header.BODYLEN;
+            n_size_to_read = (int)header.BODYLEN;
 
-            while (sizeToRead > 0)
+            while (n_size_to_read > 0)
             {
-                byte[] buffer = new byte[sizeToRead];
-                int recv = reader.Read(buffer, 0, sizeToRead);
+                byte[] buffer = new byte[n_size_to_read];
+                int n_recv = reader.Read(buffer, 0, n_size_to_read);
 
-                if (recv == 0)
+                if (n_recv == 0)
                 {
                     return null;
                 }
 
-                buffer.CopyTo(bBuffer, totalRecv);
-                totalRecv += recv;
-                sizeToRead -= recv;
+                buffer.CopyTo(bBuffer, n_total_recv);
+                n_total_recv += n_recv;
+                n_size_to_read -= n_recv;
             }
 
             ISerializable body = null;

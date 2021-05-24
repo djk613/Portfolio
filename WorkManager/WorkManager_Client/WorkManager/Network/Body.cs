@@ -8,52 +8,52 @@ namespace Protocol
 {
     public class BodyRequest : ISerializable
     {
-        public ulong FILESIZE;
-        public byte[] FILENAME;
+        public ulong m_nFile_size;
+        public byte[] m_file_name;
 
         public BodyRequest() { }
         public BodyRequest(byte[] bytes)
         {
-            FILESIZE = BitConverter.ToUInt64(bytes, 0);
-            FILENAME = new byte[bytes.Length - sizeof(long)];
-            Array.Copy(bytes, sizeof(long), FILENAME, 0, FILENAME.Length);
+            m_nFile_size = BitConverter.ToUInt64(bytes, 0);
+            m_file_name = new byte[bytes.Length - sizeof(long)];
+            Array.Copy(bytes, sizeof(long), m_file_name, 0, m_file_name.Length);
         }
 
         public byte[] GetBytes()
         {
             byte[] bytes = new byte[GetSize()];
-            byte[] temp = BitConverter.GetBytes(FILESIZE);
+            byte[] temp = BitConverter.GetBytes(m_nFile_size);
 
             Array.Copy(temp, 0, bytes, 0, temp.Length);
-            Array.Copy(FILENAME, 0, bytes, temp.Length, FILENAME.Length);
+            Array.Copy(m_file_name, 0, bytes, temp.Length, m_file_name.Length);
 
             return bytes;
         }
 
         public int GetSize()
         {
-            return sizeof(long) * FILENAME.Length;
+            return sizeof(long) * m_file_name.Length;
         }
     }
 
     public class BodyResponse : ISerializable
     {
-        public uint MSGID;
-        public byte RESPONSE;
+        public uint m_nMsgid;
+        public byte m_reponse;
 
         public BodyResponse() { }
         public BodyResponse(byte[] bytes)
         {
-            MSGID = BitConverter.ToUInt32(bytes, 0);
-            RESPONSE = bytes[4];
+            m_nMsgid = BitConverter.ToUInt32(bytes, 0);
+            m_reponse = bytes[4];
         }
 
         public byte[] GetBytes()
         {
             byte[] bytes = new byte[GetSize()];
-            byte[] temp = BitConverter.GetBytes(MSGID);
+            byte[] temp = BitConverter.GetBytes(m_nMsgid);
             Array.Copy(temp, 0, bytes, 0, temp.Length);
-            bytes[temp.Length] = RESPONSE;
+            bytes[temp.Length] = m_reponse;
 
             return bytes;
         }
@@ -66,43 +66,43 @@ namespace Protocol
 
     public class BodyData : ISerializable
     {
-        public byte[] DATA;
+        public byte[] m_data;
 
         public BodyData(byte[] bytes)
         {
-            DATA = new byte[bytes.Length];
-            bytes.CopyTo(DATA, 0);
+            m_data = new byte[bytes.Length];
+            bytes.CopyTo(m_data, 0);
         }
 
         public byte[] GetBytes()
         {
-            return DATA;
+            return m_data;
         }
 
         public int GetSize()
         {
-            return DATA.Length;
+            return m_data.Length;
         }
     }
 
     public class BodyResult : ISerializable
     {
-        public uint MSGID;
-        public byte RESULT;
+        public uint m_nMsgid;
+        public byte m_result;
 
         public BodyResult() { }
         public BodyResult(byte[] bytes)
         {
-            MSGID = BitConverter.ToUInt32(bytes, 0);
-            RESULT = bytes[4];
+            m_nMsgid = BitConverter.ToUInt32(bytes, 0);
+            m_result = bytes[4];
         }
 
         public byte[] GetBytes()
         {
             byte[] bytes = new byte[GetSize()];
-            byte[] temp = BitConverter.GetBytes(MSGID);
+            byte[] temp = BitConverter.GetBytes(m_nMsgid);
             Array.Copy(temp, 0, bytes, 0, temp.Length);
-            bytes[temp.Length] = RESULT;
+            bytes[temp.Length] = m_result;
 
             return bytes;
         }

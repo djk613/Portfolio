@@ -13,10 +13,10 @@ namespace WorkManager
 {
     public partial class Work_DB_Form : Form
     {
-        public string user_id { get; set; }
+        public string str_user_id { get; set; }
 
-        private int selected_workList_idx { get; set; }
-        private int selected_fileList_idx { get; set; }
+        private int m_nSelected_workList_idx { get; set; }
+        private int m_nSelected_fileList_idx { get; set; }
 
         public Work_DB_Form()
         {
@@ -33,7 +33,7 @@ namespace WorkManager
             dataGridView_file.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView_file.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 
-            DB_workMgr db_work = new DB_workMgr(dataGridView_work, user_id);
+            DB_workMgr db_work = new DB_workMgr(dataGridView_work, str_user_id);
             db_work.Connect();
 
             bool b_search_success = db_work.SearchListByDate();
@@ -51,11 +51,11 @@ namespace WorkManager
         {
             comboYear.Items.Clear();
             comboMonth.Items.Clear();
-            comboYear.Items.Clear();
+            comboDay.Items.Clear();
 
-            List<string> year = new List<string>();
-            List<string> month = new List<string>();
-            List<string> day = new List<string>();
+            List<string> yearList = new List<string>();
+            List<string> monthList = new List<string>();
+            List<string> dayList = new List<string>();
 
             for (int rows = 0; rows < dataGridView_work.Rows.Count - 1; rows++)
             {
@@ -63,25 +63,25 @@ namespace WorkManager
 
                 DateTime dt = Convert.ToDateTime(dataGridView_work.Rows[rows].Cells[2].Value);
 
-                year.Add(dt.Year.ToString());
-                month.Add(dt.Month.ToString());
-                day.Add(dt.Day.ToString());
+                yearList.Add(dt.Year.ToString());
+                monthList.Add(dt.Month.ToString());
+                dayList.Add(dt.Day.ToString());
             }
 
-            year = year.Distinct().ToList();
-            month = month.Distinct().ToList();
-            day = day.Distinct().ToList();
+            yearList = yearList.Distinct().ToList();
+            monthList = monthList.Distinct().ToList();
+            dayList = dayList.Distinct().ToList();
 
-            comboYear.Items.AddRange(year.ToArray());
-            comboMonth.Items.AddRange(month.ToArray());
-            comboDay.Items.AddRange(day.ToArray());
+            comboYear.Items.AddRange(yearList.ToArray());
+            comboMonth.Items.AddRange(monthList.ToArray());
+            comboDay.Items.AddRange(dayList.ToArray());
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
             Add_Item_DB_Form item_db_form = new Add_Item_DB_Form();
-            item_db_form.user_id = user_id;
-            item_db_form.dataGridView_workList = dataGridView_work;
+            item_db_form.m_strUser_id = str_user_id;
+            item_db_form.m_dataGridView_workList = dataGridView_work;
 
             item_db_form.ShowDialog();
 
@@ -90,19 +90,19 @@ namespace WorkManager
 
         private void dataGridView_work_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            selected_workList_idx = e.RowIndex;
+            m_nSelected_workList_idx = e.RowIndex;
 
-            if(selected_workList_idx >= (dataGridView_work.RowCount - 1))
+            if(m_nSelected_workList_idx >= (dataGridView_work.RowCount - 1))
             {
                 return;
             }
 
-            if(selected_workList_idx == -1)
+            if(m_nSelected_workList_idx == -1)
             {
                 return;
             }
 
-            DataGridViewRow row = dataGridView_work.Rows[selected_workList_idx];
+            DataGridViewRow row = dataGridView_work.Rows[m_nSelected_workList_idx];
             string selected_work_no = row.Cells[0].Value.ToString();
 
             DB_fileMgr db_file = new DB_fileMgr(dataGridView_file);
@@ -114,25 +114,25 @@ namespace WorkManager
 
         private void dataGridView_file_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            selected_fileList_idx = e.RowIndex;
+            m_nSelected_fileList_idx = e.RowIndex;
         }
 
         private void button_delete_file_Click(object sender, EventArgs e)
         {
-            if(selected_fileList_idx >= (dataGridView_file.RowCount - 1))
+            if(m_nSelected_fileList_idx >= (dataGridView_file.RowCount - 1))
             {
                 return;
             }
 
-            DataGridViewRow row = dataGridView_file.Rows[selected_fileList_idx];
+            DataGridViewRow row = dataGridView_file.Rows[m_nSelected_fileList_idx];
 
-            string selected_work_no = row.Cells[1].Value.ToString();
-            string selected_file_name = row.Cells[2].Value.ToString();
+            string str_selected_work_no = row.Cells[1].Value.ToString();
+            string str_selected_file_name = row.Cells[2].Value.ToString();
 
             DB_fileMgr db_file = new DB_fileMgr(dataGridView_file);
             db_file.Connect();
 
-            db_file.DeleteFile(Convert.ToInt32(selected_work_no), selected_file_name);
+            db_file.DeleteFile(Convert.ToInt32(str_selected_work_no), str_selected_file_name);
             db_file.Disconnect();
         }
 
@@ -149,7 +149,7 @@ namespace WorkManager
 
             if(b_pressOK)
             {
-                int selected_work_no = Convert.ToInt32(dataGridView_work.Rows[selected_workList_idx].Cells[0].Value.ToString());
+                int selected_work_no = Convert.ToInt32(dataGridView_work.Rows[m_nSelected_workList_idx].Cells[0].Value.ToString());
 
                 DB_fileMgr db_file = new DB_fileMgr(dataGridView_file);
                 db_file.Connect();
@@ -157,7 +157,7 @@ namespace WorkManager
                 db_file.DeleteFiles(selected_work_no);
                 db_file.Disconnect();
 
-                DB_workMgr db_work = new DB_workMgr(dataGridView_work, user_id);
+                DB_workMgr db_work = new DB_workMgr(dataGridView_work, str_user_id);
                 db_work.Connect();
 
                 db_work.DeleteList(selected_work_no);
@@ -171,12 +171,12 @@ namespace WorkManager
             }
         }
 
-        private void RefreshWorkTable(int year = 0, int month = 0, int day = 0)
+        private void RefreshWorkTable(int n_year = 0, int n_month = 0, int n_day = 0)
         {
-            DB_workMgr db_work = new DB_workMgr(dataGridView_work, user_id);
+            DB_workMgr db_work = new DB_workMgr(dataGridView_work, str_user_id);
             db_work.Connect();
 
-            bool b_search_success = db_work.SearchListByDate(year, month, day);
+            bool b_search_success = db_work.SearchListByDate(n_year, n_month, n_day);
             db_work.Disconnect();
 
             SetComboBox();
@@ -184,17 +184,17 @@ namespace WorkManager
 
         private void button_read_details_Click(object sender, EventArgs e)
         {
-            int selected_work_no = Convert.ToInt32(dataGridView_work.Rows[selected_workList_idx].Cells[0].Value.ToString());
+            int n_selected_work_no = Convert.ToInt32(dataGridView_work.Rows[m_nSelected_workList_idx].Cells[0].Value.ToString());
 
-            DB_workMgr db_work = new DB_workMgr(dataGridView_work, user_id);
+            DB_workMgr db_work = new DB_workMgr(dataGridView_work, str_user_id);
             db_work.Connect();
 
             DBWorkNode workNode = new DBWorkNode();
-            db_work.SearchWorkByWorkNo(selected_work_no,ref workNode);
+            db_work.SearchWorkByWorkNo(n_selected_work_no, ref workNode);
             
             Check_Item_DB_Form check_DB_form = new Check_Item_DB_Form();
-            check_DB_form.title = workNode.m_strTitle;
-            check_DB_form.details = workNode.m_strDetails;
+            check_DB_form.m_strTitle = workNode.m_strTitle;
+            check_DB_form.m_strDetails = workNode.m_strDetails;
 
             check_DB_form.ShowDialog();
         }
@@ -206,11 +206,11 @@ namespace WorkManager
             DB_fileMgr db_file = new DB_fileMgr(dataGridView_file);
             db_file.Connect();
 
-            int selected_work_no = Convert.ToInt32(dataGridView_work.Rows[selected_workList_idx].Cells[0].Value.ToString());
-            fileList = db_file.GetFilesLinkedWithWork(selected_work_no);
+            int n_selected_work_no = Convert.ToInt32(dataGridView_work.Rows[m_nSelected_workList_idx].Cells[0].Value.ToString());
+            fileList = db_file.GetFilesLinkedWithWork(n_selected_work_no);
             db_file.Disconnect();
 
-            Net_Client client = new Net_Client(Globals.file_IP, Globals.file_port);
+            Net_Client client = new Net_Client(Globals.m_strFile_IP, Globals.m_nFile_port);
             
             foreach(string fileName in fileList)
             {
@@ -235,38 +235,38 @@ namespace WorkManager
 
         private void RefreshWorkTableWithComboBox()
         {
-            int year;
-            int month;
-            int day;
+            int n_year;
+            int n_month;
+            int n_day;
 
             if (comboYear.Text == "")
             {
-                year = 0;
+                n_year = 0;
             }
             else
             {
-                year = Convert.ToInt32(comboYear.Text);
+                n_year = Convert.ToInt32(comboYear.Text);
             }
 
             if (comboMonth.Text == "")
             {
-                month = 0;
+                n_month = 0;
             }
             else
             {
-                month = Convert.ToInt32(comboMonth.Text);
+                n_month = Convert.ToInt32(comboMonth.Text);
             }
 
             if (comboDay.Text == "")
             {
-                day = 0;
+                n_day = 0;
             }
             else
             {
-                day = Convert.ToInt32(comboDay.Text);
+                n_day = Convert.ToInt32(comboDay.Text);
             }
 
-            RefreshWorkTable(year, month, day);
+            RefreshWorkTable(n_year, n_month, n_day);
         }
     }
 }

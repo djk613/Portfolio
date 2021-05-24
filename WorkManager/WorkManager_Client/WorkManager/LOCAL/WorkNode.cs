@@ -7,45 +7,45 @@ namespace WorkManager
 {
     public class LocalWorkNode
     {
-        public ulong serialNum { get; private set; }
-        public string date { get; private set; }
-        public string subject { get; private set; }
-        public string detailed { get; private set; }
-        public List<string> files;
+        public ulong m_nSerialNum { get; private set; }
+        public string m_strDate { get; private set; }
+        public string m_strSubject { get; private set; }
+        public string m_strDetailed { get; private set; }
+        public List<string> m_files;
 
         public LocalWorkNode(ulong serialNum, string date, string subject, string detailed, List<string> files)
         {
-            this.serialNum = serialNum;
-            this.date = date;
-            this.subject = subject;
-            this.detailed = detailed;
-            this.files = new List<string>();
+            this.m_nSerialNum = serialNum;
+            this.m_strDate = date;
+            this.m_strSubject = subject;
+            this.m_strDetailed = detailed;
+            this.m_files = new List<string>();
 
             foreach(var filePath in files)
             {
-                this.files.Add(filePath);
+                this.m_files.Add(filePath);
             }
         }
 
         public LocalWorkNode(LocalWorkNode node)
         {
-            this.serialNum = node.serialNum;
-            this.date = node.date;
-            this.subject = node.subject;
-            this.detailed = node.detailed;
-            this.files = node.files;
+            this.m_nSerialNum = node.m_nSerialNum;
+            this.m_strDate = node.m_strDate;
+            this.m_strSubject = node.m_strSubject;
+            this.m_strDetailed = node.m_strDetailed;
+            this.m_files = node.m_files;
         }
 
         public override string ToString()
         {
-            return serialNum.ToString() + '|' + date + '|' + subject + '|' + detailed + '|' + GetFilesString();
+            return m_nSerialNum.ToString() + '|' + m_strDate + '|' + m_strSubject + '|' + m_strDetailed + '|' + GetFilesString();
         }
 
         public string GetFilesString()
         {
             string result = new string("");
 
-            foreach(var filePath in files)
+            foreach(var filePath in m_files)
             {
                 result += filePath + ",";
             }
@@ -57,7 +57,7 @@ namespace WorkManager
         {
             LocalWorkNode other = obj as LocalWorkNode;
 
-            return this.serialNum == other.serialNum && this.subject == other.subject && this.date == other.date;
+            return this.m_nSerialNum == other.m_nSerialNum && this.m_strSubject == other.m_strSubject && this.m_strDate == other.m_strDate;
         }
         public override int GetHashCode()
         {
@@ -67,7 +67,7 @@ namespace WorkManager
         public string GetDayOfWeek()
         {
             DateTime dt;
-            dt = Convert.ToDateTime(this.date);
+            dt = Convert.ToDateTime(this.m_strDate);
 
             string day;
 

@@ -6,9 +6,9 @@ namespace WorkManager
 {
     public static class Globals
     {
-        public static string DB_IP { get; set; }
-        public static int DB_port { get; set; }
-        public static string file_IP { get; set; }
-        public static int file_port { get; set; }
+        public static string m_strDB_IP { get; set; }
+        public static int m_nDB_port { get; set; }
+        public static string m_strFile_IP { get; set; }
+        public static int m_nFile_port { get; set; }
 }
 }

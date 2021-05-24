@@ -29,20 +29,21 @@ namespace WorkManager
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnErase = new System.Windows.Forms.Button();
+            this.btnOK = new System.Windows.Forms.Button();
             this.labelContext = new System.Windows.Forms.Label();
             this.textBoxTitle = new System.Windows.Forms.TextBox();
             this.textBoxDetails = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // btnErase
+            // btnOK
             // 
-            this.btnErase.Location = new System.Drawing.Point(403, 387);
-            this.btnErase.Name = "btnErase";
-            this.btnErase.Size = new System.Drawing.Size(89, 30);
-            this.btnErase.TabIndex = 21;
-            this.btnErase.Text = "확인";
-            this.btnErase.UseVisualStyleBackColor = true;
+            this.btnOK.Location = new System.Drawing.Point(403, 387);
+            this.btnOK.Name = "btnOK";
+            this.btnOK.Size = new System.Drawing.Size(89, 30);
+            this.btnOK.TabIndex = 21;
+            this.btnOK.Text = "확인";
+            this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnErase_Click);
             // 
             // labelContext
             // 
@@ -73,7 +74,7 @@ namespace WorkManager
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(503, 426);
-            this.Controls.Add(this.btnErase);
+            this.Controls.Add(this.btnOK);
             this.Controls.Add(this.labelContext);
             this.Controls.Add(this.textBoxTitle);
             this.Controls.Add(this.textBoxDetails);
@@ -87,7 +88,7 @@ namespace WorkManager
 
         #endregion
 
-        private System.Windows.Forms.Button btnErase;
+        private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Label labelContext;
         private System.Windows.Forms.TextBox textBoxTitle;
         private System.Windows.Forms.TextBox textBoxDetails;
